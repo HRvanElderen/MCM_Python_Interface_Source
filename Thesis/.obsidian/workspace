@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "College 1.md",
+            "file": "Daily log/16-11.md",
             "mode": "source"
           }
         }
@@ -68,7 +68,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "College 1.md",
+                "file": "Daily log/16-11.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -88,10 +88,12 @@
   },
   "active": "82e2170689a0720a",
   "lastOpenFiles": [
-    "College 1.md",
+    "Daily log/16-11.md",
+    "Bronnen.md",
+    "TODO.md",
+    "Feedback begeleider.md",
     "Vragen begeleider.md",
     "Key words.md",
-    "Bronnen.md",
-    "Untitled.md"
+    "College 1.md"
   ]
 }

@@ -5,7 +5,7 @@
 using namespace std;
 
 #include "data.h"
-
+#include "library.h"
 /******************************************************************************/
 /**************** Log-likelihood (LogL) of a complete model  ******************/
 /******************************************************************************/
@@ -13,11 +13,11 @@ using namespace std;
 // This function is mainly used for call by `LogL_SC_PartMCM`,
 // but can also be used to compute the log-likelihood of a complete model
 //
-double LogL_CM(map<uint32_t, unsigned int > Kset, unsigned int N)
+double LogL_CM(std::map<uint32_t, unsigned int > Kset, unsigned int N)
 {
   double LogL = 0;
 
-  map<uint32_t, unsigned int >::iterator it;
+  std::map<uint32_t, unsigned int >::iterator it;
   unsigned int Ncontrol = 0; // for control
   unsigned int Ks = 0;
   double Nd = N;
@@ -41,10 +41,10 @@ double LogL_CM(map<uint32_t, unsigned int > Kset, unsigned int N)
 // This function could be also used directly by the user
 // to compute the log-likelihood of a sub-complete model
 
-double LogL_SubCM(map<uint32_t, unsigned int > Kset, uint32_t Ai, unsigned int N, bool print_bool = false)
+double LogL_SubCM(std::map<uint32_t, unsigned int > Kset, uint32_t Ai, unsigned int N, bool print_bool)
 {
-  map<uint32_t, unsigned int>::iterator it;
-  map<uint32_t, unsigned int > Kset_new;
+  std::map<uint32_t, unsigned int>::iterator it;
+  std::map<uint32_t, unsigned int > Kset_new;
 
   uint32_t s;        // state
   unsigned int ks=0; // number of time state s appear in the dataset
@@ -77,9 +77,9 @@ double LogL_SubCM(map<uint32_t, unsigned int > Kset, uint32_t Ai, unsigned int N
 //check if *Partition* is an actual partition of the basis elements, 
 // i.e., that no basis element appears in more than 1 part of the partition.
 // i.e., that each basis element only appears in a single part of the partition.
-bool check_partition(map<uint32_t, uint32_t> Partition);
+bool check_partition(std::map<uint32_t, uint32_t> Partition);
 
-double LogL_MCM(map<uint32_t, unsigned int > Kset, map<uint32_t, uint32_t> Partition, unsigned int N, bool print_bool = false)
+double LogL_MCM(std::map<uint32_t, unsigned int > Kset, std::map<uint32_t, uint32_t> Partition, unsigned int N, bool print_bool)
 {
   //if (!check_partition(Partition)) {cout << "Error, the argument is not a partition." << endl; return 0;  }
 
@@ -87,7 +87,7 @@ double LogL_MCM(map<uint32_t, unsigned int > Kset, map<uint32_t, uint32_t> Parti
   //{
     double LogL = 0; 
     unsigned int rank = 0;
-    map<uint32_t, uint32_t>::iterator Part;
+    std::map<uint32_t, uint32_t>::iterator Part;
 
     for (Part = Partition.begin(); Part != Partition.end(); Part++)
     {

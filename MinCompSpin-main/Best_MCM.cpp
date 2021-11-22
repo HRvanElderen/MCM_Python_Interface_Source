@@ -3,13 +3,13 @@
 #include <bitset>
 
 #include "data.h"
-
+#include "library.h"
 /******************************************************************************/
 /**************** Log-likelihood (LogL), Geometric Complexity *****************/
 /*************************  and Log-evidence (LogE) ***************************/
 /******************************************************************************/
-double LogE_MCM(map<uint32_t, unsigned int > Kset, map<uint32_t, uint32_t> Partition, unsigned int N, bool print_bool = false);
-double Complexity_MCM(map<uint32_t, uint32_t> Partition, unsigned int N, double *C_param, double *C_geom);
+double LogE_MCM(std::map<uint32_t, unsigned int > Kset, std::map<uint32_t, uint32_t> Partition, unsigned int N, bool print_bool);
+double Complexity_MCM(std::map<uint32_t, uint32_t> Partition, unsigned int N, double *C_param, double *C_geom);
 
 /********************************************************************/
 /*************    CHECK if "Partition" IS A PARTITION   *************/
@@ -18,7 +18,7 @@ double Complexity_MCM(map<uint32_t, uint32_t> Partition, unsigned int N, double 
 // i.e., that no basis element appears in more than 1 part of the partition.
 // i.e., that each basis element only appears in a single part of the partition.
 
-bool check_partition(map<uint32_t, uint32_t> Partition);
+bool check_partition(std::map<uint32_t, uint32_t> Partition);
 
 /********************************************************************/
 /**********************    PRINT PARTITION   ************************/
@@ -29,9 +29,9 @@ void Print_Partition(uint32_t *a)
   {    cout << a[i];  }
 }
 
-void Print_Partition_Converted(map<uint32_t, uint32_t>  partition)
+void Print_Partition_Converted(std::map<uint32_t, uint32_t>  partition)
 {
-  for (map<uint32_t, uint32_t>::iterator i = partition.begin(); i != partition.end(); i++)
+  for (std::map<uint32_t, uint32_t>::iterator i = partition.begin(); i != partition.end(); i++)
   {    cout << (*i).second << " = " << bitset<n>((*i).second) << "\n";  }
   cout << endl;
 }
@@ -41,9 +41,9 @@ void Print_Partition_Converted(map<uint32_t, uint32_t>  partition)
 /**********************   SPECIFIC TO MCM    ************************/
 /********************************************************************/
 // *** map<uint32_t, uint32_t>   --> .first = i = index    --> .second = a[i] = number of element in the part
-map<uint32_t, uint32_t> Convert_Partition_forMCM(uint32_t *a, unsigned int r=n)
+std::map<uint32_t, uint32_t> Convert_Partition_forMCM(uint32_t *a, unsigned int r)
 {
-  map<uint32_t, uint32_t> Partition;
+  std::map<uint32_t, uint32_t> Partition;
   uint32_t element = 1;
 
   for (int i=r-1; i>=0; i--)  // read element from last to first
@@ -60,9 +60,9 @@ map<uint32_t, uint32_t> Convert_Partition_forMCM(uint32_t *a, unsigned int r=n)
 }
 
 // *** map<uint32_t, uint32_t> --> .first = i = index of the partition    --> .second = a[i] = number of element in the part
-map<uint32_t, uint32_t> Convert_Partition_forMCM_withSubPart(uint32_t *a, bool *keep_SubPartition, unsigned int r=n)
+std::map<uint32_t, uint32_t> Convert_Partition_forMCM_withSubPart(uint32_t *a, bool *keep_SubPartition, unsigned int r)
 {
-  map<uint32_t, uint32_t> Partition;
+  std::map<uint32_t, uint32_t> Partition;
 
   uint32_t element = 1;
   bool switch_ = false;
@@ -99,7 +99,7 @@ int find_j(uint32_t *a, uint32_t *b, unsigned int r)
 // ***            Compare all the MCM of rank r, 
 // ***            based on the r first elements of the basis used to build Kset:
 /******************************************************************************/
-map<uint32_t, uint32_t> MCM_GivenRank_r(map<uint32_t, unsigned int > Kset, unsigned int N, double *LogE_best, unsigned int r=n, bool print_bool=false)
+std::map<uint32_t, uint32_t> MCM_GivenRank_r(std::map<uint32_t, unsigned int > Kset, unsigned int N, double *LogE_best, unsigned int r, bool print_bool)
 {
   cout << "--->> Search for the best MCM.." << endl << endl;
 
@@ -136,7 +136,7 @@ map<uint32_t, uint32_t> MCM_GivenRank_r(map<uint32_t, unsigned int > Kset, unsig
   // *** LogE and Complexity
   double LogE = 0;
   double C_param = 0, C_geom = 0;
-  map<uint32_t, uint32_t> Partition;
+  std::map<uint32_t, uint32_t> Partition;
 
   // *** Save Best MCMs:
   uint32_t *aBest = (uint32_t *)malloc(n*sizeof(uint32_t));
@@ -225,12 +225,12 @@ map<uint32_t, uint32_t> MCM_GivenRank_r(map<uint32_t, unsigned int > Kset, unsig
 // *** By default: - r=n
 // ***             - the function doesn't print the logE-values for all the tested MCMs. To activate --> print_bool = true 
 /******************************************************************************/
-map<uint32_t, uint32_t> MCM_AllRank_SmallerThan_r_Ordered(map<uint32_t, unsigned int > Kset, unsigned int N, double *LogE_best, unsigned int r=n, bool print_bool=false)
+std::map<uint32_t, uint32_t> MCM_AllRank_SmallerThan_r_Ordered(map<uint32_t, unsigned int > Kset, unsigned int N, double *LogE_best, unsigned int r, bool print_bool)
 {
   int counter = 0, i = 0;
   int counter_subMCM = 0;
 
-  string xx_st = "";
+  std::string xx_st = "";
   for(int i=0; i<n-r; i++)
     {  xx_st += "_";  }
 
@@ -271,7 +271,7 @@ map<uint32_t, uint32_t> MCM_AllRank_SmallerThan_r_Ordered(map<uint32_t, unsigned
   // *** LogE and Complexity
   double LogE = 0;
   double C_param = 0, C_geom = 0;
-  map<uint32_t, uint32_t> Partition;
+  std::map<uint32_t, uint32_t> Partition;
 
   // *** Save Best MCMs:
   uint32_t *aBest = (uint32_t *)malloc(r*sizeof(uint32_t));
@@ -414,14 +414,14 @@ map<uint32_t, uint32_t> MCM_AllRank_SmallerThan_r_Ordered(map<uint32_t, unsigned
 // *** By default: - r=n
 // ***             - the function doesn't print the logE-values for all the tested MCMs. To activate --> print_bool = true 
 /******************************************************************************/
-map<uint32_t, uint32_t> MCM_AllRank_SmallerThan_r_nonOrdered(map<uint32_t, unsigned int > Kset, unsigned int N, double *LogE_best, unsigned int r=n, bool print_bool=false)
+std::map<uint32_t, uint32_t> MCM_AllRank_SmallerThan_r_nonOrdered(std::map<uint32_t, unsigned int > Kset, unsigned int N, double *LogE_best, unsigned int r, bool print_bool)
 {
   cout << "All MCM based on all subsets of r operators among n chosen independent operators, r<=n: " << endl;
 
   int counter = 0, i = 0;
   int counter_subMCM = 0;
 
-  string xx_st = "";
+  std::string xx_st = "";
   for(int i=0; i<n-r; i++)
     {  xx_st += "_";  }
 
@@ -462,7 +462,7 @@ map<uint32_t, uint32_t> MCM_AllRank_SmallerThan_r_nonOrdered(map<uint32_t, unsig
   // *** LogE and Complexity
   double LogE = 0;
   double C_param = 0, C_geom = 0;
-  map<uint32_t, uint32_t> Partition, Partition_buffer;
+  std::map<uint32_t, uint32_t> Partition, Partition_buffer;
 
   //  *** Save Best MCMs:
   uint32_t *aBest = (uint32_t *)malloc(r*sizeof(uint32_t));
