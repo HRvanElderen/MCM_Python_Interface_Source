@@ -5,7 +5,7 @@
 using namespace std;
 
 #include "data.h"
-#include "library.h"
+
 
 /******************************************************************************/
 /**************************   MODEL COMPLEXITY   ******************************/
@@ -31,12 +31,12 @@ double ParamComplexity_SubCM(unsigned int m, unsigned int N)  // Parameter Compl
 // Compute separately: -- the first order complexity    --> stored in C_param
 //                     -- and the geometric complexity  --> stored in C_geom
 
-double Complexity_MCM(std::map<uint32_t, uint32_t> Partition, unsigned int N, double *C_param, double *C_geom)
+double Complexity_MCM(map<uint32_t, uint32_t> Partition, unsigned int N, double *C_param, double *C_geom)
 {
   *C_param = 0;   *C_geom = 0;
   uint32_t m_i = 0;  // number of elements in Ai
 
-  for (std::map<uint32_t, uint32_t>::iterator Part = Partition.begin(); Part != Partition.end(); Part++)
+  for (map<uint32_t, uint32_t>::iterator Part = Partition.begin(); Part != Partition.end(); Part++)
   {
     m_i = bitset<n>((*Part).second).count();
     (*C_param) += ParamComplexity_SubCM(m_i, N);

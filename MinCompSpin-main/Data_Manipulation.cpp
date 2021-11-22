@@ -9,19 +9,19 @@
 /**************************    CONSTANTS    *************************/
 /********************************************************************/
 #include "data.h"
-#include "library.h"
+
 /******************************************************************************/
 /**************************     READ FILE    **********************************/
 /******************************************************************************/
 /**************    READ DATA and STORE them in Nset    ************************/
-std::map<uint32_t, unsigned int> read_datafile(unsigned int *N, std::string filename)    // O(N)  where N = data set size
+map<uint32_t, unsigned int> read_datafile(unsigned int *N, string filename = datafilename)    // O(N)  where N = data set size
 {
   string line, line2;     uint32_t nb = 0;
   (*N) = 0;            // N = dataset size
   cout << endl << "--->> Read \"" << filename << "\",\t Build Nset...";
 
 // ***** data are store in Nset:  ********************************
-  std::map<uint32_t, unsigned int> Nset; // Nset[mu] = #of time state mu appears in the data set
+  map<uint32_t, unsigned int> Nset; // Nset[mu] = #of time state mu appears in the data set
   
   ifstream myfile (filename.c_str());
   if (myfile.is_open())
@@ -48,12 +48,12 @@ std::map<uint32_t, unsigned int> read_datafile(unsigned int *N, std::string file
 /******************************************************************************/
 // Given a choice of a model (defined by the m basis vector) --> return the new m-state (state in the new m-basis)
 // Rem: must have m <= n 
-uint32_t transform_mu_basis(uint32_t mu, std::list<uint32_t> basis)
+uint32_t transform_mu_basis(uint32_t mu, list<uint32_t> basis)
 {
   uint32_t bit_i = 1;
   uint32_t final_mu = 0;
 
-  std::list<uint32_t>::iterator phi_i;
+  list<uint32_t>::iterator phi_i;
 
   for(phi_i = basis.begin(); phi_i != basis.end(); ++phi_i)
   {
@@ -73,12 +73,12 @@ uint32_t transform_mu_basis(uint32_t mu, std::list<uint32_t> basis)
 // Build Kset for the states written in the basis of the m-chosen independent 
 // operator on which the SC model is based:
 
-std::map<uint32_t, unsigned int> build_Kset(std::map<uint32_t, unsigned int> Nset, std::list<uint32_t> Basis, bool print_bool)
+map<uint32_t, unsigned int> build_Kset(map<uint32_t, unsigned int> Nset, list<uint32_t> Basis, bool print_bool=false)
 // sig_m = sig in the new basis and cut on the m first spins 
 // Kset[sig_m] = #of time state mu_m appears in the data set
 {
-  std::map<uint32_t, unsigned int>::iterator it;
-  std::map<uint32_t, unsigned int > Kset;
+  map<uint32_t, unsigned int>::iterator it;
+  map<uint32_t, unsigned int > Kset;
 
   uint32_t s;        // initial state
   uint32_t sig_m;    // transformed state and to the m first spins

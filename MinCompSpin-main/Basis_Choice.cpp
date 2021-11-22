@@ -8,7 +8,7 @@
 /**************************    CONSTANTS    *************************/
 /********************************************************************/
 #include "data.h"
-#include "library.h"
+
 /******************************************************************************/
 /*****************   Read Basis Operators from file  **************************/
 /******************************************************************************/
@@ -30,10 +30,10 @@
 /*** VERSION a) Operators are written as the binary          ******************/
 /****           representation of the interactions           ******************/
 /******************************************************************************/
-std::list<uint32_t> Read_BasisOp_BinaryRepresentation(string Basis_binary_filename)
+list<uint32_t> Read_BasisOp_BinaryRepresentation(string Basis_binary_filename = basis_BinaryRepresentation_filename)
 {
   uint32_t Op = 0;
-  std::list<uint32_t> Basis_li;
+  list<uint32_t> Basis_li;
 
   ifstream myfile (Basis_binary_filename.c_str());
   string line, line2;     
@@ -57,10 +57,10 @@ std::list<uint32_t> Read_BasisOp_BinaryRepresentation(string Basis_binary_filena
 /*** VERSION b) Operators are written as the integer values of the binary *****/
 /****           representation of the interactions           ******************/
 /******************************************************************************/
-std::list<uint32_t> Read_BasisOp_IntegerRepresentation(string Basis_integer_filename)
+list<uint32_t> Read_BasisOp_IntegerRepresentation(string Basis_integer_filename = basis_IntegerRepresentation_filename)
 {
   uint32_t Op = 0;
-  std::list<uint32_t> Basis_li;
+  list<uint32_t> Basis_li;
 
   ifstream myfile (Basis_integer_filename.c_str());
   string line;    
@@ -81,10 +81,10 @@ std::list<uint32_t> Read_BasisOp_IntegerRepresentation(string Basis_integer_file
 /******************************************************************************/
 /*************************    Original Basis     ******************************/
 /******************************************************************************/
-std::list<uint32_t> Original_Basis()
+list<uint32_t> Original_Basis()
 {
   uint32_t Op = 1;
-  std::list<uint32_t> Basis_li;
+  list<uint32_t> Basis_li;
 
   for (int i=0; i<n; i++)
   {
@@ -98,10 +98,10 @@ std::list<uint32_t> Original_Basis()
 /******************************************************************************/
 /***************************    Print Basis     *******************************/
 /******************************************************************************/
-void PrintTerm_Basis(std::list<uint32_t> Basis_li)
+void PrintTerm_Basis(list<uint32_t> Basis_li)
 {
   int i = 1;
-  for (std::list<uint32_t>::iterator it = Basis_li.begin(); it != Basis_li.end(); it++)
+  for (list<uint32_t>::iterator it = Basis_li.begin(); it != Basis_li.end(); it++)
   {
     cout << "##\t " << i << " \t " << (*it) << " \t " << bitset<n>(*it) << endl; i++;
   } cout << "##" << endl;

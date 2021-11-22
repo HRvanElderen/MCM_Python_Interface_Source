@@ -3,17 +3,17 @@
 #include <fstream>
 
 #include "data.h"
-#include "library.h"
+
 /******************************************************************************/
 /**************** Log-likelihood (LogL), Geometric Complexity *****************/
 /*************************  and Log-evidence (LogE) ***************************/
 /******************************************************************************/
-double LogL_MCM(std::map<uint32_t, unsigned int > Kset, std::map<uint32_t, uint32_t> Partition, unsigned int N, bool print_bool);
-double LogE_MCM(std::map<uint32_t, unsigned int > Kset, std::map<uint32_t, uint32_t> Partition, unsigned int N, bool print_bool);
-double Complexity_MCM(std::map<uint32_t, uint32_t> Partition, unsigned int N, double *C_param, double *C_geom);
+double LogL_MCM(map<uint32_t, unsigned int > Kset, map<uint32_t, uint32_t> Partition, unsigned int N, bool print_bool = false);
+double LogE_MCM(map<uint32_t, unsigned int > Kset, map<uint32_t, uint32_t> Partition, unsigned int N, bool print_bool = false);
+double Complexity_MCM(map<uint32_t, uint32_t> Partition, unsigned int N, double *C_param, double *C_geom);
 
-double LogE_SubCM(std::map<uint32_t, unsigned int > Kset, uint32_t Ai, unsigned int N, bool print_bool);
-double LogL_SubCM(std::map<uint32_t, unsigned int > Kset, uint32_t Ai, unsigned int N, bool print_bool);
+double LogE_SubCM(map<uint32_t, unsigned int > Kset, uint32_t Ai, unsigned int N, bool print_bool = false);
+double LogL_SubCM(map<uint32_t, unsigned int > Kset, uint32_t Ai, unsigned int N, bool print_bool = false);
 double GeomComplexity_SubCM(unsigned int m);
 double ParamComplexity_SubCM(unsigned int m, unsigned int N);
 
@@ -21,9 +21,9 @@ double ParamComplexity_SubCM(unsigned int m, unsigned int N);
 /******************************************************************************/
 /***************************    Define an MCM   *******************************/
 /******************************************************************************/
-std::map<uint32_t, uint32_t> Create_MCM(uint32_t MCM_table[], int k)
+map<uint32_t, uint32_t> Create_MCM(uint32_t MCM_table[], int k)
 {
-  std::map<uint32_t, uint32_t> MCM_partition;
+  map<uint32_t, uint32_t> MCM_partition;
   uint32_t integer = 0;
 
   for (int i=0; i<k; i++)
@@ -38,13 +38,13 @@ std::map<uint32_t, uint32_t> Create_MCM(uint32_t MCM_table[], int k)
 /*** VERSION a) Operators are written as the binary          ******************/
 /****           representation of the interactions           ******************/
 /******************************************************************************/
-std::map<uint32_t, uint32_t> Read_MCMParts_BinaryRepresentation(std::string MCM_binary_filename)
+map<uint32_t, uint32_t> Read_MCMParts_BinaryRepresentation(string MCM_binary_filename)
 {
-  std::map<uint32_t, uint32_t> MCM_partition;
+  map<uint32_t, uint32_t> MCM_partition;
   uint32_t integer = 0;
 
   ifstream myfile (MCM_binary_filename.c_str());
-  std::string line, line2;     
+  string line, line2;     
 
   if (myfile.is_open())
   {
@@ -67,9 +67,9 @@ std::map<uint32_t, uint32_t> Read_MCMParts_BinaryRepresentation(std::string MCM_
 // i.e., that no basis element appears in more than 1 part of the partition.
 // i.e., that each basis element only appears in a single part of the partition.
 
-bool check_partition(std::map<uint32_t, uint32_t> Partition)
+bool check_partition(map<uint32_t, uint32_t> Partition)
 {
-  std::map<uint32_t, uint32_t>::iterator Part;
+  map<uint32_t, uint32_t>::iterator Part;
   uint32_t sum = 0;
   uint32_t rank = 0; 
 
@@ -87,7 +87,7 @@ bool check_partition(std::map<uint32_t, uint32_t> Partition)
 /********************************************************************/
 /*******    PRINT INFO on each PART of an MCM (= a partition)   *****/
 /********************************************************************/
-void PrintTerminal_MCM_Info(std::map<uint32_t, unsigned int > Kset, unsigned int N, std::map<uint32_t, uint32_t> MCM_Partition)
+void PrintTerminal_MCM_Info(map<uint32_t, unsigned int > Kset, unsigned int N, map<uint32_t, uint32_t> MCM_Partition)
 {
   uint32_t Part = 0, m=0;
   double C_param=0, C_geom=0;
@@ -108,7 +108,7 @@ void PrintTerminal_MCM_Info(std::map<uint32_t, unsigned int > Kset, unsigned int
   cout << endl << "\t !! The last operator corresponds to the bit the most on the left !!" << endl << endl;;
   cout << "## 1:Part_int \t 2:Part_binary \t 3:LogL \t 4:C_param \t 5:C_geom \t 6:C_tot \t 7:LogE" << endl;
 
-  for (std::map<uint32_t, uint32_t>::iterator i = MCM_Partition.begin(); i != MCM_Partition.end(); i++)
+  for (map<uint32_t, uint32_t>::iterator i = MCM_Partition.begin(); i != MCM_Partition.end(); i++)
   {    
     Part = (*i).second;
     m = bitset<n>(Part).count();  // rank of the part (i.e. rank of the SCM)
@@ -127,9 +127,9 @@ void PrintTerminal_MCM_Info(std::map<uint32_t, unsigned int > Kset, unsigned int
 /**************************    PRINT INFO    ************************/
 /******    ON SUCCESSIVE INDEPENDENT MODELS IN THE NEW BASIS   ******/
 /********************************************************************/
-void PrintInfo_All_Indep_Models(std::map<uint32_t, unsigned int> Kset, unsigned int N)
+void PrintInfo_All_Indep_Models(map<uint32_t, unsigned int> Kset, unsigned int N)
 {
-  std::map<uint32_t, uint32_t> Partition_Indep;  uint32_t Op = 1;
+  map<uint32_t, uint32_t> Partition_Indep;  uint32_t Op = 1;
   for (uint32_t i = 0 ; i<n; i++)
   {
     Partition_Indep[i] = Op;
@@ -143,9 +143,9 @@ void PrintInfo_All_Indep_Models(std::map<uint32_t, unsigned int> Kset, unsigned 
 /**************************    PRINT INFO    ************************/
 /******    ON SUCCESSIVE SUB_COMPLETE MODELS IN THE NEW BASIS   *****/
 /********************************************************************/
-void PrintInfo_All_SubComplete_Models(std::map<uint32_t, unsigned int> Kset, unsigned int N)
+void PrintInfo_All_SubComplete_Models(map<uint32_t, unsigned int> Kset, unsigned int N)
 {
-  std::map<uint32_t, uint32_t> Partition_SC;  uint32_t Op = 1;
+  map<uint32_t, uint32_t> Partition_SC;  uint32_t Op = 1;
   Partition_SC[0] = 0;
   for (uint32_t i = 0 ; i<n; i++)
   {

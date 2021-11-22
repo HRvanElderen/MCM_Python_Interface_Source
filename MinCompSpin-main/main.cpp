@@ -48,7 +48,7 @@ int main()
   uint32_t Basis_Choice[] =  {3, 5, 9, 48, 65, 129, 272, 81, 1};    // Ex. This is the best basis for the "Shapes" dataset
 
   unsigned int m = sizeof(Basis_Choice) / sizeof(uint32_t);
-  std::list<uint32_t> Basis_li;  Basis_li.assign (Basis_Choice, Basis_Choice + m); 
+  list<uint32_t> Basis_li;  Basis_li.assign (Basis_Choice, Basis_Choice + m); 
 
   // *** The basis can also be read from a file:
 //   list<uint32_t> Basis_li = Read_BasisOp_IntegerRepresentation();
@@ -79,7 +79,7 @@ int main()
   cout << endl << "\t If the size 'm' of the basis is strictly smaller than the number 'n' of variables, ";
   cout << endl << "\t then the data will be troncated to the 'm' first basis elements." << endl;
 
-  std::map<uint32_t, unsigned int> Kset = build_Kset(Nset, Basis_li, false);
+  map<uint32_t, unsigned int> Kset = build_Kset(Nset, Basis_li, false);
 
   cout << endl << "*******************************************************************************************"; 
   cout << endl << "************************************  All Indep Models:  **********************************";
@@ -106,7 +106,7 @@ int main()
   uint32_t MCM_Choice[] =  {384, 64, 32, 16, 8, 4, 2, 1};
 
   unsigned int k = sizeof(MCM_Choice) / sizeof(uint32_t);  // Number of parts
-  std::map<uint32_t, uint32_t> MCM_Partition0 = Create_MCM(MCM_Choice, k);
+  map<uint32_t, uint32_t> MCM_Partition0 = Create_MCM(MCM_Choice, k);
 
   // *** The MCM can also be read from a file:
 //  map<uint32_t, uint32_t> MCM_Partition0 = Read_MCMParts_BinaryRepresentation("./INPUT/Dataset_Shapes_n9_MCM_Binary.dat");
@@ -134,7 +134,7 @@ int main()
 
   if (r1 <= Basis_li.size())
   {
-    std::map<uint32_t, uint32_t> MCM_Partition1 = MCM_GivenRank_r(Kset, N, &LogE_BestMCM1, r1, false);
+    map<uint32_t, uint32_t> MCM_Partition1 = MCM_GivenRank_r(Kset, N, &LogE_BestMCM1, r1, false);
     //cout << "\t Best LogE = " << LogE_BestMCM1 << endl;
     PrintTerminal_MCM_Info(Kset, N, MCM_Partition1);
   }
@@ -164,7 +164,7 @@ int main()
 
   if (r2 <= Basis_li.size())
   {
-    std::map<uint32_t, uint32_t> MCM_Partition2 = MCM_AllRank_SmallerThan_r_Ordered(Kset, N, &LogE_BestMCM2, r2, false);
+    map<uint32_t, uint32_t> MCM_Partition2 = MCM_AllRank_SmallerThan_r_Ordered(Kset, N, &LogE_BestMCM2, r2, false);
     //cout << "\t Best LogE = " << LogE_BestMCM2 << endl;
     PrintTerminal_MCM_Info(Kset, N, MCM_Partition2);
   }
@@ -195,7 +195,7 @@ int main()
 
   if (r3 <= Basis_li.size())
   {
-    std::map<uint32_t, uint32_t> MCM_Partition3 = MCM_AllRank_SmallerThan_r_nonOrdered(Kset, N, &LogE_BestMCM3, r3, false);
+    map<uint32_t, uint32_t> MCM_Partition3 = MCM_AllRank_SmallerThan_r_nonOrdered(Kset, N, &LogE_BestMCM3, r3, false);
     //cout << "\t Best LogE = " << LogE_BestMCM3 << endl;
     PrintTerminal_MCM_Info(Kset, N, MCM_Partition3);
   }

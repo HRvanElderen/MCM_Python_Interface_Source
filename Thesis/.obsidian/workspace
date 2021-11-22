@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "Daily log/16-11.md",
+            "file": "Daily log/22 - 11.md",
             "mode": "source"
           }
         }
@@ -68,7 +68,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Daily log/16-11.md",
+                "file": "Daily log/22 - 11.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -88,6 +88,7 @@
   },
   "active": "82e2170689a0720a",
   "lastOpenFiles": [
+    "Daily log/22 - 11.md",
     "Daily log/16-11.md",
     "Bronnen.md",
     "TODO.md",
