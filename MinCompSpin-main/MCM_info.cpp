@@ -1,6 +1,7 @@
 #include <map>
 #include <bitset>
 #include <fstream>
+#include <vector>
 
 #include "data.h"
 
@@ -21,7 +22,7 @@ double ParamComplexity_SubCM(unsigned int m, unsigned int N);
 /******************************************************************************/
 /***************************    Define an MCM   *******************************/
 /******************************************************************************/
-map<uint32_t, uint32_t> Create_MCM(uint32_t MCM_table[], int k)
+map<uint32_t, uint32_t> Create_MCM(vector<uint32_t> MCM_table, int k)
 {
   map<uint32_t, uint32_t> MCM_partition;
   uint32_t integer = 0;

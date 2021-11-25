@@ -1,7 +1,18 @@
 #include <sstream>
 #include <list>
 #include <map>
+#include <vector>
 
+vector<uint32_t> Def_Basis_Choice {3, 5, 9, 48, 65, 129, 272, 81, 1};
+vector<uint32_t> Def_MCM_Choice {384, 64, 32, 16, 8, 4, 2, 1};
+
+void MCM(unsigned int n = 9, 
+         string datafilename = "INPUT/Dataset_Shapes_n9_N1e5.dat", 
+         string basis_IntegerRepresentation_filename = "INPUT/Dataset_Shapes_n9_Basis_Integer.dat", 
+         string basis_BinaryRepresentation_filename = "INPUT/Dataset_Shapes_n9_Basis_Binary.dat",
+         string OUTPUT_directory = "OUTPUT/",
+         vector<uint32_t> Basis_Choice =  Def_Basis_Choice,
+         vector<uint32_t> MCM_Choice =  Def_MCM_Choice);
 
 /******************************************************************************/
 /******************************************************************************/
@@ -15,8 +26,8 @@ list<uint32_t> Original_Basis();   // return the original basis, i.e., {s1, s2, 
 
 /*** READ BASIS from a FILE:    ***********************************************/
 /******************************************************************************/
-list<uint32_t> Read_BasisOp_BinaryRepresentation(string Basis_binary_filename = basis_BinaryRepresentation_filename);   // default filename to specify in data.h
-list<uint32_t> Read_BasisOp_IntegerRepresentation(string Basis_integer_filename = basis_IntegerRepresentation_filename); 
+list<uint32_t> Read_BasisOp_BinaryRepresentation(string Basis_binary_filename);   // default filename to specify in data.h
+list<uint32_t> Read_BasisOp_IntegerRepresentation(string Basis_integer_filename); 
 
 /*** Print Basis Info in the Terminal:    *************************************/
 /******************************************************************************/
@@ -33,7 +44,7 @@ void PrintTerm_Basis(list<uint32_t> Basis_li);
 
 /*** READ DATA and STORE data in Nset:    *************************************/
 /******************************************************************************/
-map<uint32_t, unsigned int> read_datafile(unsigned int *N, string filename = datafilename); // filename to specify in data.h
+map<uint32_t, unsigned int> read_datafile(unsigned int *N, string filename); // filename to specify in data.h
 
 /*** DATA CHANGE of BASIS:    *************************************************/
 /******************************************************************************/
@@ -89,7 +100,7 @@ double Complexity_MCM(map<uint32_t, uint32_t> Partition, unsigned int N, double 
 /******************************************************************************/
 
 // *** Define an MCM by hand:
-map<uint32_t, uint32_t> Create_MCM(uint32_t MCM_table[], int k);
+map<uint32_t, uint32_t> Create_MCM(vector<uint32_t> MCM_table, int k);
 
 // *** Define an MCM from a file; Each part must be encoded in a binary number over n spins:
 map<uint32_t, uint32_t> Read_MCMParts_BinaryRepresentation(string MCM_binary_filename);
@@ -121,7 +132,7 @@ void PrintInfo_All_SubComplete_Models(map<uint32_t, unsigned int> Kset, unsigned
 // ***            based on the r first elements of the basis used to build Kset:
 // *** By default: - r=n
 // ***             - the function doesn't print the logE-values for all the tested MCMs. To activate --> print_bool = true 
-map<uint32_t, uint32_t> MCM_GivenRank_r(map<uint32_t, unsigned int > Kset, unsigned int N, double *LogE_best, unsigned int r=n, bool print_bool=false);
+map<uint32_t, uint32_t> MCM_GivenRank_r(map<uint32_t, unsigned int > Kset, unsigned int N, double *LogE_best, unsigned int r, bool print_bool=false);
 
 /******************************************************************************/
 // *** Version 2:  
@@ -130,7 +141,7 @@ map<uint32_t, uint32_t> MCM_GivenRank_r(map<uint32_t, unsigned int > Kset, unsig
 // ***            for all k=1 to r, where r <= basis.size() 
 // *** By default: - r=n
 // ***             - the function doesn't print the logE-values for all the tested MCMs. To activate --> print_bool = true 
-map<uint32_t, uint32_t> MCM_AllRank_SmallerThan_r_Ordered(map<uint32_t, unsigned int > Kset, unsigned int N, double *LogE_best, unsigned int r=n, bool print_bool=false);
+map<uint32_t, uint32_t> MCM_AllRank_SmallerThan_r_Ordered(map<uint32_t, unsigned int > Kset, unsigned int N, double *LogE_best, unsigned int r, bool print_bool=false);
 
 /******************************************************************************/
 // *** Version 3:  
@@ -139,5 +150,6 @@ map<uint32_t, uint32_t> MCM_AllRank_SmallerThan_r_Ordered(map<uint32_t, unsigned
 // ***            for all k=1 to r, where r <= basis.size() 
 // *** By default: - r=n
 // ***             - the function doesn't print the logE-values for all the tested MCMs. To activate --> print_bool = true 
-map<uint32_t, uint32_t> MCM_AllRank_SmallerThan_r_nonOrdered(map<uint32_t, unsigned int > Kset, unsigned int N, double *LogE_best, unsigned int r=n, bool print_bool=false);
+map<uint32_t, uint32_t> MCM_AllRank_SmallerThan_r_nonOrdered(map<uint32_t, unsigned int > Kset, unsigned int N, double *LogE_best, unsigned int r, bool print_bool=false);
+
 

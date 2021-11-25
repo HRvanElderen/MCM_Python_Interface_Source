@@ -1,5 +1,7 @@
 Literatuur zoeken 
 
+finding data sets
+
 andere bestaande algoritme zoeken om mee te vergelijken
 
 - Looking for algorithms with different terms than community detection to find non network related algorithms.

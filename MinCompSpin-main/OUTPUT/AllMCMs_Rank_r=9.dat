@@ -1,2 +1,0 @@
-To activate the prints for all the MCMs of rank r<=9,
- specify `print_bool=true` in the last argument of the function MCM_AllRank_SmallerThan_r_Ordered();

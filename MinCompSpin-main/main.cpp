@@ -13,13 +13,19 @@ using namespace std;
 /********************************************************************/
 /**************************    CONSTANTS    *************************/
 /********************************************************************/
-#include "data.h"
+//#include "data.h"
 #include "library.h"
 
 /******************************************************************************/
 /*******************************   main function   ****************************/
 /******************************************************************************/
-int main()
+void MCM(unsigned int n, 
+        string datafilename, 
+        string basis_IntegerRepresentation_filename, 
+        string basis_BinaryRepresentation_filename, 
+        string OUTPUT_directory, 
+        vector<uint32_t> Basis_Choice,
+        vector<uint32_t> MCM_Choice)
 {  
   cout << "--->> Create OUTPUT Folder: (if needed) ";
   system( ("mkdir -p " + OUTPUT_directory).c_str() );
@@ -29,7 +35,7 @@ int main()
   cout << endl << "***********************************  Read the data:  **************************************";
   cout << endl << "*******************************************************************************************" << endl;
   unsigned int N=0; // will contain the number of datapoints in the dataset
-  map<uint32_t, unsigned int> Nset = read_datafile(&N);
+  map<uint32_t, unsigned int> Nset = read_datafile(&N, datafilename);
 
 
   cout << endl << "*******************************************************************************************"; 
@@ -45,14 +51,14 @@ int main()
 // ***      -->  Op = 3               Integer representation   ( 000000011 = 3 )
 
   // *** The basis can be specified by hand here:
-  uint32_t Basis_Choice[] =  {3, 5, 9, 48, 65, 129, 272, 81, 1};    // Ex. This is the best basis for the "Shapes" dataset
+  //uint32_t Basis_Choice[] =  {3, 5, 9, 48, 65, 129, 272, 81, 1};    // Ex. This is the best basis for the "Shapes" dataset
 
-  unsigned int m = sizeof(Basis_Choice) / sizeof(uint32_t);
-  list<uint32_t> Basis_li;  Basis_li.assign (Basis_Choice, Basis_Choice + m); 
+//  unsigned int m = sizeof(Basis_Choice) / sizeof(uint32_t);
+  list<uint32_t> Basis_li;  Basis_li.assign (Basis_Choice.begin(), Basis_Choice.end()); 
 
   // *** The basis can also be read from a file:
-//   list<uint32_t> Basis_li = Read_BasisOp_IntegerRepresentation();
-//   list<uint32_t> Basis_li = Read_BasisOp_BinaryRepresentation();
+//   list<uint32_t> Basis_li = Read_BasisOp_IntegerRepresentation(basis_IntegerRepresentation_filename);
+//   list<uint32_t> Basis_li = Read_BasisOp_BinaryRepresentation(basis_BinaryRepresentation_filename);
 
   // *** Or one can simply use the original basis of the data:
 //   list<uint32_t> Basis_li = Original_Basis();
@@ -103,7 +109,7 @@ int main()
   cout << endl << "*******************************************************************************************" << endl << endl;
 
   // *** The MCM can be specified by hand here:
-  uint32_t MCM_Choice[] =  {384, 64, 32, 16, 8, 4, 2, 1};
+//  uint32_t MCM_Choice[] =  {384, 64, 32, 16, 8, 4, 2, 1};
 
   unsigned int k = sizeof(MCM_Choice) / sizeof(uint32_t);  // Number of parts
   map<uint32_t, uint32_t> MCM_Partition0 = Create_MCM(MCM_Choice, k);
@@ -129,7 +135,7 @@ int main()
   cout << endl << "\t 'r' must be smaller or equal to the number 'm' of basis element provided, 'm=Basis_li.size()',";
   cout << endl << "\t which must be smaller or equal to the number 'n' of spin variables." << endl << endl;
 
-  int r1 = 9;
+  int r1 = n;
   double LogE_BestMCM1 = 0;
 
   if (r1 <= Basis_li.size())
@@ -159,7 +165,7 @@ int main()
 // ***             - the function doesn't print the logE-values for all the tested MCMs. To activate --> print_bool = true 
 /******************************************************************************/
 
-  int r2 = 9;
+  int r2 = n;
   double LogE_BestMCM2 = 0;
 
   if (r2 <= Basis_li.size())
@@ -190,7 +196,7 @@ int main()
 // ***             - the function doesn't print the logE-values for all the tested MCMs. To activate --> print_bool = true 
 /******************************************************************************/
 
-  int r3 = 9;
+  int r3 = n;
   double LogE_BestMCM3 = 0;
 
   if (r3 <= Basis_li.size())
@@ -200,9 +206,10 @@ int main()
     PrintTerminal_MCM_Info(Kset, N, MCM_Partition3);
   }
   else { cout << "The condition on the value of 'r' is not respected" << endl;  }
-
-
-  return 0;
 }
 
+int main() {
+  MCM();
+  return 0;
+}
 
