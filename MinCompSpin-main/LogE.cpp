@@ -1,10 +1,10 @@
-#include <bitset>
 #include <cmath>       /* tgamma */
 #include <map>
+#include <boost/dynamic_bitset.hpp>
+#include <iostream>
 
 using namespace std;
-
-#include "data.h"
+using namespace boost;
 
 
 /******************************************************************************/
@@ -46,7 +46,7 @@ double LogE_SubC_forMCM(map<uint32_t, unsigned int > Kset, uint32_t m, unsigned 
 // This function could be also used directly by the user
 // to compute the log-likelihood of a sub-complete model
 
-double LogE_SubCM(map<uint32_t, unsigned int > Kset, uint32_t Ai, unsigned int N, bool print_bool = false)
+double LogE_SubCM(map<uint32_t, unsigned int > Kset, uint32_t Ai, unsigned int N, unsigned int n, bool print_bool = false)
 {
   map<uint32_t, unsigned int>::iterator it;
   map<uint32_t, unsigned int > Kset_new;
@@ -55,25 +55,25 @@ double LogE_SubCM(map<uint32_t, unsigned int > Kset, uint32_t Ai, unsigned int N
   unsigned int ks=0; // number of time state s appear in the dataset
 
   if (print_bool)  { 
-  cout << endl << "--->> Build Kset for SC Model based on "  << Ai << " = " << bitset<n>(Ai) << " for MCM.." << endl;
+  cout << endl << "--->> Build Kset for SC Model based on "  << Ai << " = " << dynamic_bitset<>(n, Ai) << " for MCM.." << endl;
   }
 //Build Kset:
   for (it = Kset.begin(); it!=Kset.end(); ++it)
   {
     s = it->first;      // initial state s 
     ks = it->second;    // # of times s appears in the data set
-    if (print_bool)  {  cout << s << ": \t" << bitset<n>(s) << " \t" ;  }
+    if (print_bool)  {  cout << s << ": \t" << dynamic_bitset<>(n, s) << " \t" ;  }
 
     s &= Ai;   // troncated state: take only the bits indicated by Ai
 //    sig_m = bitset<m>(bitset<m>(mu).to_string()).to_ulong(); //bitset<m>(mu).to_ulong(); // mu|m
-    if (print_bool)  {  cout << s << ": \t" << bitset<n>(s) << endl; }
+    if (print_bool)  {  cout << s << ": \t" << dynamic_bitset<>(n, s) << endl; }
 
     Kset_new[s] += ks;
     //Kset[mu_m].second.push_back(make_pair(mu, N_mu));
   }
   if (print_bool)  {  cout << endl;  }
 
-  return LogE_SubC_forMCM(Kset_new, bitset<n>(Ai).count(), N);
+  return LogE_SubC_forMCM(Kset_new, dynamic_bitset<>(n, Ai).count(), N);
 }
 
 /******************************************************************************/
@@ -85,7 +85,7 @@ double LogE_SubCM(map<uint32_t, unsigned int > Kset, uint32_t Ai, unsigned int N
 bool check_partition(map<uint32_t, uint32_t> Partition);
 
 
-double LogE_MCM(map<uint32_t, unsigned int > Kset, map<uint32_t, uint32_t> Partition, unsigned int N, bool print_bool = false)
+double LogE_MCM(map<uint32_t, unsigned int > Kset, map<uint32_t, uint32_t> Partition, unsigned int N, unsigned int n, bool print_bool = false)
 {
   //if (!check_partition(Partition)) {cout << "Error, the argument is not a partition." << endl; return 0;  }
 
@@ -97,8 +97,8 @@ double LogE_MCM(map<uint32_t, unsigned int > Kset, map<uint32_t, uint32_t> Parti
 
     for (Part = Partition.begin(); Part != Partition.end(); Part++)
     {
-      LogE += LogE_SubCM(Kset, (*Part).second, N);
-      rank += bitset<n>((*Part).second).count();
+      LogE += LogE_SubCM(Kset, (*Part).second, N, n);
+      rank += dynamic_bitset<>(n, (*Part).second).count();
     }  
     return LogE - ((double) (N * (n-rank))) * log(2.);
   //}

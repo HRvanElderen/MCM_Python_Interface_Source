@@ -13,29 +13,22 @@ using namespace std;
 /********************************************************************/
 /**************************    CONSTANTS    *************************/
 /********************************************************************/
-//#include "data.h"
 #include "library.h"
 
 /******************************************************************************/
 /*******************************   main function   ****************************/
 /******************************************************************************/
-void MCM(unsigned int n, 
-        string datafilename, 
-        string basis_IntegerRepresentation_filename, 
-        string basis_BinaryRepresentation_filename, 
-        string OUTPUT_directory, 
-        vector<uint32_t> Basis_Choice,
-        vector<uint32_t> MCM_Choice)
+void MCS(unsigned int n, list<uint32_t> Basis_Choice, uint32_t MCM_Choice[], string datafilename )
 {  
   cout << "--->> Create OUTPUT Folder: (if needed) ";
-  system( ("mkdir -p " + OUTPUT_directory).c_str() );
+  system("mkdir -p OUTPUT/");
   cout << endl;
 
   cout << endl << "*******************************************************************************************"; 
   cout << endl << "***********************************  Read the data:  **************************************";
   cout << endl << "*******************************************************************************************" << endl;
   unsigned int N=0; // will contain the number of datapoints in the dataset
-  map<uint32_t, unsigned int> Nset = read_datafile(&N, datafilename);
+  map<uint32_t, unsigned int> Nset = read_datafile(&N, n, datafilename);
 
 
   cout << endl << "*******************************************************************************************"; 
@@ -64,7 +57,7 @@ void MCM(unsigned int n,
 //   list<uint32_t> Basis_li = Original_Basis();
 
   // *** Print info about the Basis:
-  PrintTerm_Basis(Basis_li);
+  PrintTerm_Basis(Basis_li, n);
 
   cout << "Number of spin variables, n=" << n << endl;
   cout << "Number of basis elements, m=" << Basis_li.size() << endl;
@@ -85,7 +78,7 @@ void MCM(unsigned int n,
   cout << endl << "\t If the size 'm' of the basis is strictly smaller than the number 'n' of variables, ";
   cout << endl << "\t then the data will be troncated to the 'm' first basis elements." << endl;
 
-  map<uint32_t, unsigned int> Kset = build_Kset(Nset, Basis_li, false);
+  map<uint32_t, unsigned int> Kset = build_Kset(Nset, Basis_li, n, false);
 
   cout << endl << "*******************************************************************************************"; 
   cout << endl << "************************************  All Indep Models:  **********************************";
@@ -93,7 +86,7 @@ void MCM(unsigned int n,
 
   cout << "Independent models in the new basis:" << endl;
   
-  PrintInfo_All_Indep_Models(Kset, N);
+  PrintInfo_All_Indep_Models(Kset, N, n);
 
   cout << endl << "*******************************************************************************************"; 
   cout << endl << "**************************  All Successive Sub-Complete Models:  **************************";
@@ -101,7 +94,7 @@ void MCM(unsigned int n,
 
   cout << "Sub-Complete models in the new basis:" << endl;
 
-  PrintInfo_All_SubComplete_Models(Kset, N);
+  PrintInfo_All_SubComplete_Models(Kset, N, n);
 
 
   cout << endl << "*******************************************************************************************"; 
@@ -109,17 +102,17 @@ void MCM(unsigned int n,
   cout << endl << "*******************************************************************************************" << endl << endl;
 
   // *** The MCM can be specified by hand here:
-//  uint32_t MCM_Choice[] =  {384, 64, 32, 16, 8, 4, 2, 1};
+  //uint32_t MCM_Choice[] =  {384, 64, 32, 16, 8, 4, 2, 1};
 
-  unsigned int k = sizeof(MCM_Choice) / sizeof(uint32_t);  // Number of parts
-  map<uint32_t, uint32_t> MCM_Partition0 = Create_MCM(MCM_Choice, k);
+  //unsigned int k = sizeof(MCM_Choice) / sizeof(uint32_t);  // Number of parts 
+  map<uint32_t, uint32_t> MCM_Partition0 = Create_MCM(MCM_Choice, 8); // changed k to n
 
   // *** The MCM can also be read from a file:
-//  map<uint32_t, uint32_t> MCM_Partition0 = Read_MCMParts_BinaryRepresentation("./INPUT/Dataset_Shapes_n9_MCM_Binary.dat");
+//  map<uint32_t, uint32_t> MCM_Partition0 = Read_MCMParts_BinaryRepresentation("./INPUT/Dataset_Shapes_n9_MCM_Binary.dat", n);
 
-  if(check_partition(MCM_Partition0))
+  if(check_partition(MCM_Partition0, n))
   {
-    PrintTerminal_MCM_Info(Kset, N, MCM_Partition0);
+    PrintTerminal_MCM_Info(Kset, N, n, MCM_Partition0);
   }
   else { cout << "The set of 'parts' provided does not form a partition of the basis elements." << endl;  }
   
@@ -140,9 +133,9 @@ void MCM(unsigned int n,
 
   if (r1 <= Basis_li.size())
   {
-    map<uint32_t, uint32_t> MCM_Partition1 = MCM_GivenRank_r(Kset, N, &LogE_BestMCM1, r1, false);
+    map<uint32_t, uint32_t> MCM_Partition1 = MCM_GivenRank_r(Kset, N, &LogE_BestMCM1, r1, n, false);
     //cout << "\t Best LogE = " << LogE_BestMCM1 << endl;
-    PrintTerminal_MCM_Info(Kset, N, MCM_Partition1);
+    PrintTerminal_MCM_Info(Kset, N, n, MCM_Partition1);
   }
   else { cout << "The condition on the value of 'r' is not respected" << endl;  }
 
@@ -170,9 +163,9 @@ void MCM(unsigned int n,
 
   if (r2 <= Basis_li.size())
   {
-    map<uint32_t, uint32_t> MCM_Partition2 = MCM_AllRank_SmallerThan_r_Ordered(Kset, N, &LogE_BestMCM2, r2, false);
+    map<uint32_t, uint32_t> MCM_Partition2 = MCM_AllRank_SmallerThan_r_Ordered(Kset, N, &LogE_BestMCM2, r2, n, false);
     //cout << "\t Best LogE = " << LogE_BestMCM2 << endl;
-    PrintTerminal_MCM_Info(Kset, N, MCM_Partition2);
+    PrintTerminal_MCM_Info(Kset, N, n, MCM_Partition2);
   }
   else { cout << "The condition on the value of 'r' is not respected" << endl;  }
 
@@ -201,15 +194,18 @@ void MCM(unsigned int n,
 
   if (r3 <= Basis_li.size())
   {
-    map<uint32_t, uint32_t> MCM_Partition3 = MCM_AllRank_SmallerThan_r_nonOrdered(Kset, N, &LogE_BestMCM3, r3, false);
+    map<uint32_t, uint32_t> MCM_Partition3 = MCM_AllRank_SmallerThan_r_nonOrdered(Kset, N, &LogE_BestMCM3, r3, n, false);
     //cout << "\t Best LogE = " << LogE_BestMCM3 << endl;
-    PrintTerminal_MCM_Info(Kset, N, MCM_Partition3);
+    PrintTerminal_MCM_Info(Kset, N, n, MCM_Partition3);
   }
   else { cout << "The condition on the value of 'r' is not respected" << endl;  }
 }
 
 int main() {
-  MCM();
+  uint32_t MCM_Choice[] =  {384, 64, 32, 16, 8, 4, 2, 1};
+  list<uint32_t> Basis_Choice({3, 5, 9, 48, 65, 129, 272, 81, 1});
+  unsigned int n = 9;
+  MCS(n, Basis_Choice, MCM_Choice, "INPUT/Dataset_Shapes_n9_N1e5.dat");
   return 0;
 }
 

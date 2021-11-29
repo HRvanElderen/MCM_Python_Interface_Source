@@ -1,10 +1,9 @@
-#include <bitset>
 #include <cmath>       /* tgamma */
 #include <map>
+#include <boost/dynamic_bitset.hpp>
 
 using namespace std;
-
-#include "data.h"
+using namespace boost;
 
 
 /******************************************************************************/
@@ -31,14 +30,14 @@ double ParamComplexity_SubCM(unsigned int m, unsigned int N)  // Parameter Compl
 // Compute separately: -- the first order complexity    --> stored in C_param
 //                     -- and the geometric complexity  --> stored in C_geom
 
-double Complexity_MCM(map<uint32_t, uint32_t> Partition, unsigned int N, double *C_param, double *C_geom)
+double Complexity_MCM(map<uint32_t, uint32_t> Partition, unsigned int N, unsigned int n, double *C_param, double *C_geom)
 {
   *C_param = 0;   *C_geom = 0;
   uint32_t m_i = 0;  // number of elements in Ai
 
   for (map<uint32_t, uint32_t>::iterator Part = Partition.begin(); Part != Partition.end(); Part++)
   {
-    m_i = bitset<n>((*Part).second).count();
+    m_i = dynamic_bitset<>(n, (*Part).second).count();
     (*C_param) += ParamComplexity_SubCM(m_i, N);
     (*C_geom) += GeomComplexity_SubCM(m_i);
   }  

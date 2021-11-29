@@ -5,8 +5,7 @@
 
 #include <pybind11/pybind11.h>
 #include "pybind11/stl.h"   // support for standard library.
-#include "main.cpp" // cpp source.
-#include <vector>
+#include "library.h" // cpp source.
 
 PYBIND11_MODULE(pybind11_mcs, m) {
     m.doc() = "pybind11 pybind11_mcs plugin"; // Optional module docstring
@@ -33,11 +32,5 @@ PYBIND11_MODULE(pybind11_mcs, m) {
     m.def("MCM_GivenRank_r", &MCM_GivenRank_r);
     m.def("MCM_AllRank_SmallerThan_r_Ordered", &MCM_AllRank_SmallerThan_r_Ordered);
     m.def("MCM_AllRank_SmallerThan_r_nonOrdered", &MCM_AllRank_SmallerThan_r_nonOrdered);
-    m.def("MCM", &MCM, "spin model function", pybind11::arg("n") = 9, 
-                                              pybind11::arg("datafilename") = "INPUT/Dataset_Shapes_n9_N1e5.dat", 
-                                              pybind11::arg("basis_IntegerRepresentation_filename") = "INPUT/Dataset_Shapes_n9_Basis_Integer.dat", 
-                                              pybind11::arg("basis_BinaryRepresentation_filename") = "INPUT/Dataset_Shapes_n9_Basis_Binary.dat", 
-                                              pybind11::arg("OUTPUT_directory") = "OUTPUT/", 
-                                              pybind11::arg("Basis_Choice") =  Def_Basis_Choice,
-                                              pybind11::arg("MCM_Choice") =  Def_MCM_Choice);
+    //m.def("MCS", &MCS);
 }

@@ -3,4 +3,6 @@
 
 import pybind11_mcs
 
-pybind11_mcs.MCM()
+print(pybind11_mcs.Original_Basis(8))
+
+pybind11_mcs.MCS()

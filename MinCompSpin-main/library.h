@@ -1,18 +1,10 @@
 #include <sstream>
 #include <list>
 #include <map>
-#include <vector>
 
-vector<uint32_t> Def_Basis_Choice {3, 5, 9, 48, 65, 129, 272, 81, 1};
-vector<uint32_t> Def_MCM_Choice {384, 64, 32, 16, 8, 4, 2, 1};
+using namespace std;
 
-void MCM(unsigned int n = 9, 
-         string datafilename = "INPUT/Dataset_Shapes_n9_N1e5.dat", 
-         string basis_IntegerRepresentation_filename = "INPUT/Dataset_Shapes_n9_Basis_Integer.dat", 
-         string basis_BinaryRepresentation_filename = "INPUT/Dataset_Shapes_n9_Basis_Binary.dat",
-         string OUTPUT_directory = "OUTPUT/",
-         vector<uint32_t> Basis_Choice =  Def_Basis_Choice,
-         vector<uint32_t> MCM_Choice =  Def_MCM_Choice);
+void MCS(const unsigned int n, const list<uint32_t> Basis_Choice, const uint32_t MCM_Choice[], const string datafilename);
 
 /******************************************************************************/
 /******************************************************************************/
@@ -22,16 +14,16 @@ void MCM(unsigned int n = 9,
 
 /*** Original Basis:    ***********************************************/
 /******************************************************************************/
-list<uint32_t> Original_Basis();   // return the original basis, i.e., {s1, s2, ..., sn}
+list<uint32_t> Original_Basis(unsigned int n);   // return the original basis, i.e., {s1, s2, ..., sn}
 
 /*** READ BASIS from a FILE:    ***********************************************/
 /******************************************************************************/
-list<uint32_t> Read_BasisOp_BinaryRepresentation(string Basis_binary_filename);   // default filename to specify in data.h
+list<uint32_t> Read_BasisOp_BinaryRepresentation(string Basis_binary_filename, unsigned int n);   // default filename to specify in data.h
 list<uint32_t> Read_BasisOp_IntegerRepresentation(string Basis_integer_filename); 
 
 /*** Print Basis Info in the Terminal:    *************************************/
 /******************************************************************************/
-void PrintTerm_Basis(list<uint32_t> Basis_li);
+void PrintTerm_Basis(list<uint32_t> Basis_li, unsigned int n);
 
 
 
@@ -44,7 +36,7 @@ void PrintTerm_Basis(list<uint32_t> Basis_li);
 
 /*** READ DATA and STORE data in Nset:    *************************************/
 /******************************************************************************/
-map<uint32_t, unsigned int> read_datafile(unsigned int *N, string filename); // filename to specify in data.h
+map<uint32_t, unsigned int> read_datafile(unsigned int *N, unsigned int n, string filename); // filename to specify in data.h
 
 /*** DATA CHANGE of BASIS:    *************************************************/
 /******************************************************************************/
@@ -54,7 +46,7 @@ map<uint32_t, unsigned int> read_datafile(unsigned int *N, string filename); // 
 //
 // *** Rem: the new basis can have a lower dimension then the original dataset; 
 // *** in which case the function will reduce the dataset to the subspace defined by the specified basis.
-map<uint32_t, unsigned int> build_Kset(map<uint32_t, unsigned int> Nset, list<uint32_t> Basis, bool print_bool=false);
+map<uint32_t, unsigned int> build_Kset(map<uint32_t, unsigned int> Nset, list<uint32_t> Basis, unsigned int n, bool print_bool=false);
 
 
 
@@ -73,8 +65,8 @@ map<uint32_t, unsigned int> build_Kset(map<uint32_t, unsigned int> Nset, list<ui
 // *** For ex. Ai = 01001 is encoded on n=5 basis elements, and element Op1 and Op4 belong to the part;
 // *** Rem: Basis elements are ordered from the right to the left.
 
-double LogL_SubCM(map<uint32_t, unsigned int > Kset, uint32_t Ai, unsigned int N, bool print_bool = false);
-double LogE_SubCM(map<uint32_t, unsigned int > Kset, uint32_t Ai, unsigned int N, bool print_bool = false);
+double LogL_SubCM(map<uint32_t, unsigned int > Kset, uint32_t Ai, unsigned int N, unsigned int n, bool print_bool = false);
+double LogE_SubCM(map<uint32_t, unsigned int > Kset, uint32_t Ai, unsigned int N, unsigned int n, bool print_bool = false);
 
 // *** Complexity of a SC model based on m basis Operators: m >= 1. Rem: C_geom(m=1) = log(pi):
 double GeomComplexity_SubCM(unsigned int m);                  // Geometric complexity
@@ -86,9 +78,9 @@ double LogL_CM(map<uint32_t, unsigned int > Kset, unsigned int N);
 
 /****************************    for a MCM     ********************************/
 /******************************************************************************/
-double LogL_MCM(map<uint32_t, unsigned int > Kset, map<uint32_t, uint32_t> Partition, unsigned int N, bool print_bool = false);
-double LogE_MCM(map<uint32_t, unsigned int > Kset, map<uint32_t, uint32_t> Partition, unsigned int N, bool print_bool = false);
-double Complexity_MCM(map<uint32_t, uint32_t> Partition, unsigned int N, double *C_param, double *C_geom);
+double LogL_MCM(map<uint32_t, unsigned int > Kset, map<uint32_t, uint32_t> Partition, unsigned int N, unsigned int n, bool print_bool = false);
+double LogE_MCM(map<uint32_t, unsigned int > Kset, map<uint32_t, uint32_t> Partition, unsigned int N, unsigned int n, bool print_bool = false);
+double Complexity_MCM(map<uint32_t, uint32_t> Partition, unsigned int N, unsigned int n, double *C_param, double *C_geom);
 
 
 
@@ -100,22 +92,22 @@ double Complexity_MCM(map<uint32_t, uint32_t> Partition, unsigned int N, double 
 /******************************************************************************/
 
 // *** Define an MCM by hand:
-map<uint32_t, uint32_t> Create_MCM(vector<uint32_t> MCM_table, int k);
+map<uint32_t, uint32_t> Create_MCM(uint32_t MCM_table[], int k);
 
 // *** Define an MCM from a file; Each part must be encoded in a binary number over n spins:
-map<uint32_t, uint32_t> Read_MCMParts_BinaryRepresentation(string MCM_binary_filename);
+map<uint32_t, uint32_t> Read_MCMParts_BinaryRepresentation(string MCM_binary_filename, unsigned int n);
 
 // *** Check that the provided model corresponds to a partition of the basis variables (i.e. properly defines an MCM):
-bool check_partition(map<uint32_t, uint32_t> Partition);
+bool check_partition(map<uint32_t, uint32_t> Partition, unsigned int n);
 
 // *** Print information about the MCM specified in `MCM_Partition`:
-void PrintTerminal_MCM_Info(map<uint32_t, unsigned int > Kset, unsigned int N, map<uint32_t, uint32_t> MCM_Partition);
+void PrintTerminal_MCM_Info(map<uint32_t, unsigned int > Kset, unsigned int N, unsigned int n, map<uint32_t, uint32_t> MCM_Partition);
 
 // *** Create successive independent models defined on the new basis, and print the corresponding information:
-void PrintInfo_All_Indep_Models(map<uint32_t, unsigned int> Kset, unsigned int N);
+void PrintInfo_All_Indep_Models(map<uint32_t, unsigned int> Kset, unsigned int N, unsigned int n);
 
 // *** Create successive Sub-complete models defined on the new basis, and print the corresponding information:
-void PrintInfo_All_SubComplete_Models(map<uint32_t, unsigned int> Kset, unsigned int N);
+void PrintInfo_All_SubComplete_Models(map<uint32_t, unsigned int> Kset, unsigned int N, unsigned int n);
 
 
 
@@ -132,7 +124,7 @@ void PrintInfo_All_SubComplete_Models(map<uint32_t, unsigned int> Kset, unsigned
 // ***            based on the r first elements of the basis used to build Kset:
 // *** By default: - r=n
 // ***             - the function doesn't print the logE-values for all the tested MCMs. To activate --> print_bool = true 
-map<uint32_t, uint32_t> MCM_GivenRank_r(map<uint32_t, unsigned int > Kset, unsigned int N, double *LogE_best, unsigned int r, bool print_bool=false);
+map<uint32_t, uint32_t> MCM_GivenRank_r(map<uint32_t, unsigned int > Kset, unsigned int N, double *LogE_best, unsigned int r, unsigned int n, bool print_bool=false);
 
 /******************************************************************************/
 // *** Version 2:  
@@ -141,7 +133,7 @@ map<uint32_t, uint32_t> MCM_GivenRank_r(map<uint32_t, unsigned int > Kset, unsig
 // ***            for all k=1 to r, where r <= basis.size() 
 // *** By default: - r=n
 // ***             - the function doesn't print the logE-values for all the tested MCMs. To activate --> print_bool = true 
-map<uint32_t, uint32_t> MCM_AllRank_SmallerThan_r_Ordered(map<uint32_t, unsigned int > Kset, unsigned int N, double *LogE_best, unsigned int r, bool print_bool=false);
+map<uint32_t, uint32_t> MCM_AllRank_SmallerThan_r_Ordered(map<uint32_t, unsigned int > Kset, unsigned int N, double *LogE_best, unsigned int r, unsigned int n, bool print_bool=false);
 
 /******************************************************************************/
 // *** Version 3:  
@@ -150,6 +142,6 @@ map<uint32_t, uint32_t> MCM_AllRank_SmallerThan_r_Ordered(map<uint32_t, unsigned
 // ***            for all k=1 to r, where r <= basis.size() 
 // *** By default: - r=n
 // ***             - the function doesn't print the logE-values for all the tested MCMs. To activate --> print_bool = true 
-map<uint32_t, uint32_t> MCM_AllRank_SmallerThan_r_nonOrdered(map<uint32_t, unsigned int > Kset, unsigned int N, double *LogE_best, unsigned int r, bool print_bool=false);
+map<uint32_t, uint32_t> MCM_AllRank_SmallerThan_r_nonOrdered(map<uint32_t, unsigned int > Kset, unsigned int N, double *LogE_best, unsigned int r, unsigned int n, bool print_bool=false);
 
 

@@ -2,13 +2,10 @@
 #include <fstream>
 #include <sstream>
 #include <list>
-#include <bitset>
+#include <boost/dynamic_bitset.hpp>
 
-/********************************************************************/
-/**************************    CONSTANTS    *************************/
-/********************************************************************/
-#include "data.h"
-
+using namespace std;
+using namespace boost;
 /******************************************************************************/
 /*****************   Read Basis Operators from file  **************************/
 /******************************************************************************/
@@ -30,9 +27,8 @@
 /*** VERSION a) Operators are written as the binary          ******************/
 /****           representation of the interactions           ******************/
 /******************************************************************************/
-list<uint32_t> Read_BasisOp_BinaryRepresentation(string Basis_binary_filename = basis_BinaryRepresentation_filename)
+list<uint32_t> Read_BasisOp_BinaryRepresentation(string Basis_binary_filename, unsigned int n)
 {
-  uint32_t Op = 0;
   list<uint32_t> Basis_li;
 
   ifstream myfile (Basis_binary_filename.c_str());
@@ -44,8 +40,8 @@ list<uint32_t> Read_BasisOp_BinaryRepresentation(string Basis_binary_filename = 
     {
       line2 = line.substr (0,n);          //take the n first characters of line
 
-      Op = bitset<n>(line2).to_ulong();   //convert string line2 into a binary integer
-      Basis_li.push_back(Op);   
+      dynamic_bitset<> Op(n, stoul(line2));   //convert string line2 into a binary integer
+      Basis_li.push_back(Op.to_ulong());   
     }
     myfile.close();
   }
@@ -57,7 +53,7 @@ list<uint32_t> Read_BasisOp_BinaryRepresentation(string Basis_binary_filename = 
 /*** VERSION b) Operators are written as the integer values of the binary *****/
 /****           representation of the interactions           ******************/
 /******************************************************************************/
-list<uint32_t> Read_BasisOp_IntegerRepresentation(string Basis_integer_filename = basis_IntegerRepresentation_filename)
+list<uint32_t> Read_BasisOp_IntegerRepresentation(string Basis_integer_filename)
 {
   uint32_t Op = 0;
   list<uint32_t> Basis_li;
@@ -81,7 +77,7 @@ list<uint32_t> Read_BasisOp_IntegerRepresentation(string Basis_integer_filename 
 /******************************************************************************/
 /*************************    Original Basis     ******************************/
 /******************************************************************************/
-list<uint32_t> Original_Basis()
+list<uint32_t> Original_Basis(unsigned int n)
 {
   uint32_t Op = 1;
   list<uint32_t> Basis_li;
@@ -98,12 +94,12 @@ list<uint32_t> Original_Basis()
 /******************************************************************************/
 /***************************    Print Basis     *******************************/
 /******************************************************************************/
-void PrintTerm_Basis(list<uint32_t> Basis_li)
+void PrintTerm_Basis(list<uint32_t> Basis_li, unsigned int n)
 {
   int i = 1;
   for (list<uint32_t>::iterator it = Basis_li.begin(); it != Basis_li.end(); it++)
   {
-    cout << "##\t " << i << " \t " << (*it) << " \t " << bitset<n>(*it) << endl; i++;
+    cout << "##\t " << i << " \t " << (*it) << " \t " << dynamic_bitset<>(n, *it) << endl; i++;
   } cout << "##" << endl;
 }
 
