@@ -4,7 +4,7 @@
 
 using namespace std;
 
-void MCS(const unsigned int n, const list<uint32_t> Basis_Choice, const uint32_t MCM_Choice[], const string datafilename);
+void MCS(unsigned int n, list<uint32_t> Basis_Choice, list<uint32_t> MCM_Choice, string datafilename);
 
 /******************************************************************************/
 /******************************************************************************/
@@ -92,7 +92,7 @@ double Complexity_MCM(map<uint32_t, uint32_t> Partition, unsigned int N, unsigne
 /******************************************************************************/
 
 // *** Define an MCM by hand:
-map<uint32_t, uint32_t> Create_MCM(uint32_t MCM_table[], int k);
+map<uint32_t, uint32_t> Create_MCM(list<uint32_t> MCM_table);
 
 // *** Define an MCM from a file; Each part must be encoded in a binary number over n spins:
 map<uint32_t, uint32_t> Read_MCMParts_BinaryRepresentation(string MCM_binary_filename, unsigned int n);

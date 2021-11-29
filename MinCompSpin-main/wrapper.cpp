@@ -32,5 +32,5 @@ PYBIND11_MODULE(pybind11_mcs, m) {
     m.def("MCM_GivenRank_r", &MCM_GivenRank_r);
     m.def("MCM_AllRank_SmallerThan_r_Ordered", &MCM_AllRank_SmallerThan_r_Ordered);
     m.def("MCM_AllRank_SmallerThan_r_nonOrdered", &MCM_AllRank_SmallerThan_r_nonOrdered);
-    //m.def("MCS", &MCS);
+    m.def("MCS", &MCS);
 }

@@ -3,6 +3,7 @@
 
 import pybind11_mcs
 
-print(pybind11_mcs.Original_Basis(8))
-
-pybind11_mcs.MCS()
+MCM_Choice = [384, 64, 32, 16, 8, 4, 2, 1]
+Basis_Choice = [3, 5, 9, 48, 65, 129, 272, 81, 1]
+n = 9
+pybind11_mcs.MCS(n, Basis_Choice, MCM_Choice, "INPUT/Dataset_Shapes_n9_N1e5.dat")

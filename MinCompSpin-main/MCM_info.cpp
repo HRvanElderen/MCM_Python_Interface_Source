@@ -23,16 +23,16 @@ double ParamComplexity_SubCM(unsigned int m, unsigned int N);
 /******************************************************************************/
 /***************************    Define an MCM   *******************************/
 /******************************************************************************/
-map<uint32_t, uint32_t> Create_MCM(uint32_t MCM_table[], int k)
+map<uint32_t, uint32_t> Create_MCM(list<uint32_t> MCM_table)
 {
   map<uint32_t, uint32_t> MCM_partition;
   uint32_t integer = 0;
 
-  for (int i=0; i<k; i++)
-  {
-    MCM_partition[integer]=MCM_table[i];
+  for (auto const& i : MCM_table) {
+    MCM_partition[integer]=i;
     integer++;
   }
+
   return MCM_partition;
 }
 

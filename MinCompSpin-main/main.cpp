@@ -18,7 +18,7 @@ using namespace std;
 /******************************************************************************/
 /*******************************   main function   ****************************/
 /******************************************************************************/
-void MCS(unsigned int n, list<uint32_t> Basis_Choice, uint32_t MCM_Choice[], string datafilename )
+void MCS(unsigned int n, list<uint32_t> Basis_li, list<uint32_t> MCM_Choice, string datafilename)
 {  
   cout << "--->> Create OUTPUT Folder: (if needed) ";
   system("mkdir -p OUTPUT/");
@@ -47,7 +47,7 @@ void MCS(unsigned int n, list<uint32_t> Basis_Choice, uint32_t MCM_Choice[], str
   //uint32_t Basis_Choice[] =  {3, 5, 9, 48, 65, 129, 272, 81, 1};    // Ex. This is the best basis for the "Shapes" dataset
 
 //  unsigned int m = sizeof(Basis_Choice) / sizeof(uint32_t);
-  list<uint32_t> Basis_li;  Basis_li.assign (Basis_Choice.begin(), Basis_Choice.end()); 
+//  list<uint32_t> Basis_li;  Basis_li.assign (Basis_Choice.begin(), Basis_Choice.end()); 
 
   // *** The basis can also be read from a file:
 //   list<uint32_t> Basis_li = Read_BasisOp_IntegerRepresentation(basis_IntegerRepresentation_filename);
@@ -104,8 +104,7 @@ void MCS(unsigned int n, list<uint32_t> Basis_Choice, uint32_t MCM_Choice[], str
   // *** The MCM can be specified by hand here:
   //uint32_t MCM_Choice[] =  {384, 64, 32, 16, 8, 4, 2, 1};
 
-  //unsigned int k = sizeof(MCM_Choice) / sizeof(uint32_t);  // Number of parts 
-  map<uint32_t, uint32_t> MCM_Partition0 = Create_MCM(MCM_Choice, 8); // changed k to n
+  map<uint32_t, uint32_t> MCM_Partition0 = Create_MCM(MCM_Choice); // changed k to n
 
   // *** The MCM can also be read from a file:
 //  map<uint32_t, uint32_t> MCM_Partition0 = Read_MCMParts_BinaryRepresentation("./INPUT/Dataset_Shapes_n9_MCM_Binary.dat", n);
@@ -202,7 +201,7 @@ void MCS(unsigned int n, list<uint32_t> Basis_Choice, uint32_t MCM_Choice[], str
 }
 
 int main() {
-  uint32_t MCM_Choice[] =  {384, 64, 32, 16, 8, 4, 2, 1};
+  list<uint32_t> MCM_Choice({384, 64, 32, 16, 8, 4, 2, 1});
   list<uint32_t> Basis_Choice({3, 5, 9, 48, 65, 129, 272, 81, 1});
   unsigned int n = 9;
   MCS(n, Basis_Choice, MCM_Choice, "INPUT/Dataset_Shapes_n9_N1e5.dat");
