@@ -1,1 +1,0 @@
-g++ -I /Users/hrvanelderen/Documents/Informatica_jaar_4/Afstudeer\ project/boost -std=c++11 -O3 main.cpp Data_Manipulation.cpp LogE.cpp LogL.cpp Complexity.cpp Best_MCM.cpp Basis_Choice.cpp MCM_info.cpp

@@ -203,6 +203,7 @@ void MCS(unsigned int n, list<uint32_t> Basis_li, list<uint32_t> MCM_Choice, str
 int main() {
   list<uint32_t> MCM_Choice({384, 64, 32, 16, 8, 4, 2, 1});
   list<uint32_t> Basis_Choice({3, 5, 9, 48, 65, 129, 272, 81, 1});
+  //list<uint32_t> Basis_Choice = Original_Basis();
   unsigned int n = 9;
   MCS(n, Basis_Choice, MCM_Choice, "INPUT/Dataset_Shapes_n9_N1e5.dat");
   return 0;

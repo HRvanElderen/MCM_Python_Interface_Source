@@ -5,11 +5,18 @@
 
 #include <pybind11/pybind11.h>
 #include "pybind11/stl.h"   // support for standard library.
+#include <pybind11/numpy.h>
 #include "library.h" // cpp source.
+//list<uint32_t> Original_Basis(unsigned int n); 
 
-PYBIND11_MODULE(pybind11_mcs, m) {
-    m.doc() = "pybind11 pybind11_mcs plugin"; // Optional module docstring
-    m.def("Original_Basis", &Original_Basis);
+namespace py = pybind11;
+
+py::array_t<uint32_t> Original_Basis(unsigned int n) {
+    return py::array_t<uint32_t>(n);
+}
+
+PYBIND11_MODULE(mcs_interface, m) {
+    m.doc() = "pybind11 mcs_interface plugin"; // Optional module docstring
     m.def("Read_BasisOp_BinaryRepresentation", &Read_BasisOp_BinaryRepresentation);
     m.def("Read_BasisOp_IntegerRepresentation", &Read_BasisOp_IntegerRepresentation);
     m.def("PrintTerm_Basis", &PrintTerm_Basis);
@@ -32,5 +39,6 @@ PYBIND11_MODULE(pybind11_mcs, m) {
     m.def("MCM_GivenRank_r", &MCM_GivenRank_r);
     m.def("MCM_AllRank_SmallerThan_r_Ordered", &MCM_AllRank_SmallerThan_r_Ordered);
     m.def("MCM_AllRank_SmallerThan_r_nonOrdered", &MCM_AllRank_SmallerThan_r_nonOrdered);
+    m.def("Original_Basis", &Original_Basis);
     m.def("MCS", &MCS);
 }
