@@ -2,10 +2,9 @@
 #include <fstream>
 #include <sstream>
 #include <list>
-#include <boost/dynamic_bitset.hpp>
+#include "support.h"
 
 using namespace std;
-using namespace boost;
 /******************************************************************************/
 /*****************   Read Basis Operators from file  **************************/
 /******************************************************************************/
@@ -39,9 +38,7 @@ list<uint32_t> Read_BasisOp_BinaryRepresentation(string Basis_binary_filename, u
     while ( getline (myfile,line))
     {
       line2 = line.substr (0,n);          //take the n first characters of line
-
-      dynamic_bitset<> Op(n, stoul(line2));   //convert string line2 into a binary integer
-      Basis_li.push_back(Op.to_ulong());   
+      Basis_li.push_back(stoi(line2, 0, 2));   
     }
     myfile.close();
   }
@@ -99,7 +96,7 @@ void PrintTerm_Basis(list<uint32_t> Basis_li, unsigned int n)
   int i = 1;
   for (list<uint32_t>::iterator it = Basis_li.begin(); it != Basis_li.end(); it++)
   {
-    cout << "##\t " << i << " \t " << (*it) << " \t " << dynamic_bitset<>(n, *it) << endl; i++;
+    cout << "##\t " << i << " \t " << (*it) << " \t " << int_to_bstring(*it) << endl; i++;
   } cout << "##" << endl;
 }
 

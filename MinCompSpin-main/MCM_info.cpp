@@ -1,10 +1,10 @@
 #include <map>
 #include <fstream>
-#include <boost/dynamic_bitset.hpp>
 #include <iostream>
+#include <list>
+#include "support.h"
 
 using namespace std;
-using namespace boost;
 
 /******************************************************************************/
 /**************** Log-likelihood (LogL), Geometric Complexity *****************/
@@ -53,8 +53,7 @@ map<uint32_t, uint32_t> Read_MCMParts_BinaryRepresentation(string MCM_binary_fil
     while ( getline (myfile,line))
     {
       line2 = line.substr (0,n);          //take the n first characters of line
-      dynamic_bitset<> p(n, stoul(line2));
-      MCM_partition[integer]=p.to_ulong();   //convert string line2 into a binary integer
+      MCM_partition[integer]=stoi(line2, 0, 2);   //convert string line2 into a binary integer
       integer++;
     }
     myfile.close();
@@ -78,12 +77,12 @@ bool check_partition(map<uint32_t, uint32_t> Partition, unsigned int n)
   for (Part = Partition.begin(); Part != Partition.end(); Part++)
   {
     sum |= (*Part).second;
-    rank += dynamic_bitset<>(n,(*Part).second).count();
+    rank += countSetBits((*Part).second);
     //cout << bitset<n>( (*Part).second ) << " \t";
   }
   //cout << bitset<n>(sum) << endl;
 
-  return (dynamic_bitset<>(n, sum).count() == rank);
+  return (countSetBits(sum) == rank);
 }
 
 /********************************************************************/
@@ -113,11 +112,11 @@ void PrintTerminal_MCM_Info(map<uint32_t, unsigned int > Kset, unsigned int N, u
   for (map<uint32_t, uint32_t>::iterator i = MCM_Partition.begin(); i != MCM_Partition.end(); i++)
   {    
     Part = (*i).second;
-    m = boost::dynamic_bitset<>(n, Part).count();  // rank of the part (i.e. rank of the SCM)
+    m = countSetBits(Part);  // rank of the part (i.e. rank of the SCM)
     C_param = ParamComplexity_SubCM(m, N);
     C_geom = GeomComplexity_SubCM(m);
 
-    cout << " \t " << Part << " \t " << boost::dynamic_bitset<>(n, Part) << " \t";
+    cout << " \t " << Part << " \t " << int_to_bstring(Part) << " \t";
     cout << LogL_SubCM(Kset, Part, N, n) << " \t";
     cout << C_param << " \t " << C_geom << " \t" << C_param + C_geom << " \t";
     cout << LogE_SubCM(Kset, Part, N, n) << endl;

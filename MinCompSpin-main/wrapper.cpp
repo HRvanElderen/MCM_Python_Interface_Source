@@ -7,13 +7,8 @@
 #include "pybind11/stl.h"   // support for standard library.
 #include <pybind11/numpy.h>
 #include "library.h" // cpp source.
-//list<uint32_t> Original_Basis(unsigned int n); 
 
 namespace py = pybind11;
-
-py::array_t<uint32_t> Original_Basis(unsigned int n) {
-    return py::array_t<uint32_t>(n);
-}
 
 PYBIND11_MODULE(mcs_interface, m) {
     m.doc() = "pybind11 mcs_interface plugin"; // Optional module docstring

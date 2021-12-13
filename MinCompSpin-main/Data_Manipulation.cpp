@@ -3,10 +3,9 @@
 #include <sstream>
 #include <list>
 #include <map>
-#include <boost/dynamic_bitset.hpp>
+#include "support.h"
 
 using namespace std;
-using namespace boost;
 
 
 /******************************************************************************/
@@ -27,10 +26,9 @@ map<uint32_t, unsigned int> read_datafile(unsigned int *N, unsigned int n, strin
   {
     while ( getline (myfile,line))
     {
-      line2 = line.substr (0,n);          //take the n first characters of line
-      dynamic_bitset<> nb(line2);   //convert string line2 into a binary integer
-      Nset[nb.to_ulong()] += 1;
-      //cout << line << endl;   //cout << nb << " :  " << bitset<n>(nb) << endl;
+      line2 = line.substr (0,n);
+      Nset[stoi(line2, 0, 2)] += 1;
+      //cout << nb.to_ulong() << endl;   //cout << nb << " :  " << bitset<n>(nb) << endl;
       (*N)++;
     }
     myfile.close();
@@ -41,6 +39,7 @@ map<uint32_t, unsigned int> read_datafile(unsigned int *N, unsigned int n, strin
 
   return Nset;
 }
+
 
 /******************************************************************************/
 /*********************     CHANGE of BASIS: one datapoint  ********************/
@@ -56,7 +55,7 @@ uint32_t transform_mu_basis(uint32_t mu, unsigned int n, list<uint32_t> basis)
 
   for(phi_i = basis.begin(); phi_i != basis.end(); ++phi_i)
   {
-    if ( (dynamic_bitset<>(n, (*phi_i) & mu ).count() % 2) == 1) // odd number of 1, i.e. sig_i = 1
+    if ( (countSetBits((*phi_i) & mu) % 2) == 1) // odd number of 1, i.e. sig_i = 1
       {
         final_mu += bit_i;
       }
@@ -65,6 +64,7 @@ uint32_t transform_mu_basis(uint32_t mu, unsigned int n, list<uint32_t> basis)
 
   return final_mu;
 }
+
 
 /******************************************************************************/
 /************************** K_SET *********************************************/
@@ -93,8 +93,7 @@ map<uint32_t, unsigned int> build_Kset(map<uint32_t, unsigned int> Nset, list<ui
     ks = it->second;    // # of times s appears in the data set
     sig_m = transform_mu_basis(s, n, Basis);
 //    sig_m = bitset<m>(bitset<m>(mu).to_string()).to_ulong(); //bitset<m>(mu).to_ulong(); // mu|m
-    if (print_bool)  {  cout << s << ": \t" << dynamic_bitset<>(n, s) << " \t" << sig_m << ": \t" << dynamic_bitset<>(n, sig_m) << endl; }
-
+    if (print_bool)  {  cout << s << ": \t" << int_to_bstring(s) << " \t" << sig_m << ": \t" << int_to_bstring(sig_m) << endl; }
     Kset[sig_m] += ks;
     //Kset[mu_m].second.push_back(make_pair(mu, N_mu));
   }

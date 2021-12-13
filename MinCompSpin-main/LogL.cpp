@@ -1,11 +1,9 @@
 #include <cmath>       /* tgamma */
 #include <map>
-#include <boost/dynamic_bitset.hpp>
 #include <iostream>
+#include "support.h"
 
 using namespace std;
-using namespace boost;
-
 
 /******************************************************************************/
 /**************** Log-likelihood (LogL) of a complete model  ******************/
@@ -51,18 +49,18 @@ double LogL_SubCM(map<uint32_t, unsigned int > Kset, uint32_t Ai, unsigned int N
   unsigned int ks=0; // number of time state s appear in the dataset
 
   if (print_bool)  { 
-  cout << endl << "--->> Build Kset for SC Model based on "  << Ai << " = " << dynamic_bitset<>(n, Ai) << " for MCM.." << endl;
+  cout << endl << "--->> Build Kset for SC Model based on "  << Ai << " = " << int_to_bstring(Ai) << " for MCM.." << endl;
   }
 //Build Kset_new:
   for (it = Kset.begin(); it!=Kset.end(); ++it)
   {
     s = it->first;      // initial state s 
     ks = it->second;    // # of times s appears in the data set
-    if (print_bool)  {  cout << s << ": \t" << dynamic_bitset<>(n, s) << " \t" ;  }
+    if (print_bool)  {  cout << s << ": \t" << int_to_bstring(s) << " \t" ;  }
 
     s &= Ai;   // troncated state: take only the bits indicated by Ai
 //    sig_m = bitset<m>(bitset<m>(mu).to_string()).to_ulong(); //bitset<m>(mu).to_ulong(); // mu|m
-    if (print_bool)  {  cout << s << ": \t" << dynamic_bitset<>(n, s) << endl; }
+    if (print_bool)  {  cout << s << ": \t" << int_to_bstring(s) << endl; }
 
     Kset_new[s] += ks;
     //Kset[mu_m].second.push_back(make_pair(mu, N_mu));
@@ -93,7 +91,7 @@ double LogL_MCM(map<uint32_t, unsigned int > Kset, map<uint32_t, uint32_t> Parti
     for (Part = Partition.begin(); Part != Partition.end(); Part++)
     {
       LogL += LogL_SubCM(Kset, (*Part).second, N, n);
-      rank += dynamic_bitset<>(n, (*Part).second).count();
+      rank += countSetBits((*Part).second);
     }  
     return LogL - ((double) (N * (n-rank))) * log(2.);
   //}

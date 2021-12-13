@@ -1,9 +1,8 @@
 #include <cmath>       /* tgamma */
 #include <map>
-#include <boost/dynamic_bitset.hpp>
+#include "support.h"
 
 using namespace std;
-using namespace boost;
 
 
 /******************************************************************************/
@@ -37,7 +36,7 @@ double Complexity_MCM(map<uint32_t, uint32_t> Partition, unsigned int N, unsigne
 
   for (map<uint32_t, uint32_t>::iterator Part = Partition.begin(); Part != Partition.end(); Part++)
   {
-    m_i = dynamic_bitset<>(n, (*Part).second).count();
+    m_i = countSetBits((*Part).second);
     (*C_param) += ParamComplexity_SubCM(m_i, N);
     (*C_geom) += GeomComplexity_SubCM(m_i);
   }  

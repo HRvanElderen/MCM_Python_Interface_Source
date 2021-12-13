@@ -1,4 +1,4 @@
-//g++ -std=c++11 -O3 main.cpp Data_Manipulation.cpp LogE.cpp LogL.cpp Complexity.cpp Best_MCM.cpp Basis_Choice.cpp MCM_info.cpp
+//g++ -std=c++11 -O3 main.cpp Data_Manipulation.cpp LogE.cpp LogL.cpp Complexity.cpp Best_MCM.cpp Basis_Choice.cpp MCM_info.cpp support.cpp
 //time ./a.out
 //
 #include <iostream>
@@ -205,7 +205,7 @@ int main() {
   list<uint32_t> Basis_Choice({3, 5, 9, 48, 65, 129, 272, 81, 1});
   //list<uint32_t> Basis_Choice = Original_Basis();
   unsigned int n = 9;
-  MCS(n, Basis_Choice, MCM_Choice, "INPUT/Dataset_Shapes_n9_N1e5.dat");
+  MCS(n, Basis_Choice, MCM_Choice, "INPUT/SCOTUS_n9_N895.dat");
   return 0;
 }
 

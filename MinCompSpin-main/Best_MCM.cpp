@@ -1,10 +1,9 @@
 #include <map>
 #include <fstream>
-#include <boost/dynamic_bitset.hpp>
 #include <iostream>
+#include "support.h"
 
 using namespace std;
-using namespace boost;
 
 /******************************************************************************/
 /**************** Log-likelihood (LogL), Geometric Complexity *****************/
@@ -34,7 +33,7 @@ void Print_Partition(uint32_t *a, unsigned int n)
 void Print_Partition_Converted(map<uint32_t, uint32_t>  partition, unsigned int n)
 {
   for (map<uint32_t, uint32_t>::iterator i = partition.begin(); i != partition.end(); i++)
-  {    cout << (*i).second << " = " << dynamic_bitset<>(n, (*i).second) << "\n";  }
+  {    cout << (*i).second << " = " << int_to_bstring((*i).second) << "\n";  }
   cout << endl;
 }
 
