@@ -116,7 +116,7 @@ void PrintTerminal_MCM_Info(map<uint32_t, unsigned int > Kset, unsigned int N, u
     C_param = ParamComplexity_SubCM(m, N);
     C_geom = GeomComplexity_SubCM(m);
 
-    cout << " \t " << Part << " \t " << int_to_bstring(Part) << " \t";
+    cout << " \t " << Part << " \t " << int_to_bstring(Part, n) << " \t";
     cout << LogL_SubCM(Kset, Part, N, n) << " \t";
     cout << C_param << " \t " << C_geom << " \t" << C_param + C_geom << " \t";
     cout << LogE_SubCM(Kset, Part, N, n) << endl;

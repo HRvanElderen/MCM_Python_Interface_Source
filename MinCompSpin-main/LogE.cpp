@@ -54,18 +54,18 @@ double LogE_SubCM(map<uint32_t, unsigned int > Kset, uint32_t Ai, unsigned int N
   unsigned int ks=0; // number of time state s appear in the dataset
 
   if (print_bool)  { 
-  cout << endl << "--->> Build Kset for SC Model based on "  << Ai << " = " << int_to_bstring(Ai) << " for MCM.." << endl;
+  cout << endl << "--->> Build Kset for SC Model based on "  << Ai << " = " << int_to_bstring(Ai, n) << " for MCM.." << endl;
   }
 //Build Kset:
   for (it = Kset.begin(); it!=Kset.end(); ++it)
   {
     s = it->first;      // initial state s 
     ks = it->second;    // # of times s appears in the data set
-    if (print_bool)  {  cout << s << ": \t" << int_to_bstring(s) << " \t" ;  }
+    if (print_bool)  {  cout << s << ": \t" << int_to_bstring(s, n) << " \t" ;  }
 
     s &= Ai;   // troncated state: take only the bits indicated by Ai
 //    sig_m = bitset<m>(bitset<m>(mu).to_string()).to_ulong(); //bitset<m>(mu).to_ulong(); // mu|m
-    if (print_bool)  {  cout << s << ": \t" << int_to_bstring(s) << endl; }
+    if (print_bool)  {  cout << s << ": \t" << int_to_bstring(s, n) << endl; }
 
     Kset_new[s] += ks;
     //Kset[mu_m].second.push_back(make_pair(mu, N_mu));

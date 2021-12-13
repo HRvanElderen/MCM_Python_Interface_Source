@@ -96,7 +96,7 @@ void PrintTerm_Basis(list<uint32_t> Basis_li, unsigned int n)
   int i = 1;
   for (list<uint32_t>::iterator it = Basis_li.begin(); it != Basis_li.end(); it++)
   {
-    cout << "##\t " << i << " \t " << (*it) << " \t " << int_to_bstring(*it) << endl; i++;
+    cout << "##\t " << i << " \t " << (*it) << " \t " << int_to_bstring(*it, n) << endl; i++;
   } cout << "##" << endl;
 }
 

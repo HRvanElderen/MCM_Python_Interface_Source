@@ -4,7 +4,7 @@
 using namespace std;
 
 // create a string of binary values from an int.
-string int_to_bstring(unsigned x)
+string int_to_bstring(unsigned int x, unsigned int n)
 {
     string s;
     do
@@ -12,6 +12,8 @@ string int_to_bstring(unsigned x)
         s.push_back('0' + (x & 1));
     } while (x >>= 1);
     reverse(s.begin(), s.end());
+    s = string(n - s.length(), '0') + s;
+
     return s;
 }
 

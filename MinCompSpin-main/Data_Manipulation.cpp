@@ -93,7 +93,7 @@ map<uint32_t, unsigned int> build_Kset(map<uint32_t, unsigned int> Nset, list<ui
     ks = it->second;    // # of times s appears in the data set
     sig_m = transform_mu_basis(s, n, Basis);
 //    sig_m = bitset<m>(bitset<m>(mu).to_string()).to_ulong(); //bitset<m>(mu).to_ulong(); // mu|m
-    if (print_bool)  {  cout << s << ": \t" << int_to_bstring(s) << " \t" << sig_m << ": \t" << int_to_bstring(sig_m) << endl; }
+    if (print_bool)  {  cout << s << ": \t" << int_to_bstring(s, n) << " \t" << sig_m << ": \t" << int_to_bstring(sig_m, n) << endl; }
     Kset[sig_m] += ks;
     //Kset[mu_m].second.push_back(make_pair(mu, N_mu));
   }
