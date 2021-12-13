@@ -1,6 +1,6 @@
 *.out
 MinCompSpin-main/OUTPUT/
-
+OUTPUT/
 Thesis/
 
 boost/
