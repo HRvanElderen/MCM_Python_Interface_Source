@@ -3,5 +3,5 @@
 import invoke
 
 invoke.run(
-    "g++ -O3 -Wall -shared -std=c++11 -fPIC $(python3.7 -m pybind11 --includes) wrapper.cpp MinCompSpin-main/*.cpp -o mcm_interface$(python3.7-config --extension-suffix) -undefined dynamic_lookup"
+    "g++ -O3 -Wall -shared -std=c++11 -fPIC $(python3.8 -m pybind11 --includes) wrapper.cpp MinCompSpin-main/*.cpp -o mcm_interface$(python3.8-config --extension-suffix) -undefined dynamic_lookup"
 )
