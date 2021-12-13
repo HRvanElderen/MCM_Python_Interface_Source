@@ -10,7 +10,7 @@
 
 namespace py = pybind11;
 
-PYBIND11_MODULE(mcs_interface, m) {
+PYBIND11_MODULE(mcm_interface, m) {
     m.doc() = "pybind11 mcs_interface plugin"; // Optional module docstring
     m.def("Read_BasisOp_BinaryRepresentation", &Read_BasisOp_BinaryRepresentation);
     m.def("Read_BasisOp_IntegerRepresentation", &Read_BasisOp_IntegerRepresentation);
@@ -35,5 +35,5 @@ PYBIND11_MODULE(mcs_interface, m) {
     m.def("MCM_AllRank_SmallerThan_r_Ordered", &MCM_AllRank_SmallerThan_r_Ordered);
     m.def("MCM_AllRank_SmallerThan_r_nonOrdered", &MCM_AllRank_SmallerThan_r_nonOrdered);
     m.def("Original_Basis", &Original_Basis);
-    m.def("MCS", &MCS);
+    m.def("MCM", &MCM);
 }

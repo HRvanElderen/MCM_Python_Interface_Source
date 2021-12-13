@@ -9,3 +9,5 @@ MinCompSpin-main_original/
 
 .DS_Store
 .vscode/
+
+*.so

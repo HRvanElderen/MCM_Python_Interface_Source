@@ -18,7 +18,7 @@ using namespace std;
 /******************************************************************************/
 /*******************************   main function   ****************************/
 /******************************************************************************/
-void MCS(unsigned int n, list<uint32_t> Basis_li, list<uint32_t> MCM_Choice, string datafilename)
+void MCM(unsigned int n, list<uint32_t> Basis_li, list<uint32_t> MCM_Choice, string datafilename)
 {  
   cout << "--->> Create OUTPUT Folder: (if needed) ";
   system("mkdir -p OUTPUT/");
@@ -205,7 +205,7 @@ int main() {
   list<uint32_t> Basis_Choice({3, 5, 9, 48, 65, 129, 272, 81, 1});
   //list<uint32_t> Basis_Choice = Original_Basis();
   unsigned int n = 9;
-  MCS(n, Basis_Choice, MCM_Choice, "INPUT/SCOTUS_n9_N895.dat");
+  MCM(n, Basis_Choice, MCM_Choice, "INPUT/SCOTUS_n9_N895.dat");
   return 0;
 }
 
