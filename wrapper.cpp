@@ -6,7 +6,7 @@
 #include <pybind11/pybind11.h>
 #include "pybind11/stl.h"   // support for standard library.
 #include <pybind11/numpy.h>
-#include "library.h" // cpp source.
+#include "MinCompSpin-main/library.h" // cpp source.
 
 namespace py = pybind11;
 
