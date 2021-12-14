@@ -7,8 +7,8 @@ Basis_Choice = [3, 5, 9, 48, 65, 129, 272, 81, 1]
 
 
 n = 9
-
-#mcm_interface.MCM(n, Basis_Choice, MCM_Choice, "INPUT/SCOTUS_n9_N895.dat")
-mcm_interface.MCM(n, Basis_Choice, MCM_Choice, "INPUT/Dataset_Shapes_n9_N1e5.dat")
+b = mcm_interface.Original_Basis(n)
+mcm_interface.MCM(n, b, MCM_Choice, "INPUT/SCOTUS_n9_N895.dat")
+#mcm_interface.MCM(n, Basis_Choice, MCM_Choice, "INPUT/Dataset_Shapes_n9_N1e5.dat")
 
 

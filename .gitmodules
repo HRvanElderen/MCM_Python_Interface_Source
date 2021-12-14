@@ -1,0 +1,3 @@
+[submodule "MinCompSpin"]
+	path = MinCompSpin
+	url = https://github.com/HRvanElderen/MinCompSpin.git
