@@ -1,4 +1,8 @@
-Repo containing the code for an interface between C++ and Python for a community detection algorithm.
+# MCM_Python_Interface_Source
+
+Python package that interfaces with the C++ implementation of the MCM algorithm for community detection.
+
+**The C++ implementation:** https://github.com/clelidm/MinCompSpin
 
 The library uses Python 3.8.
 
