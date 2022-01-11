@@ -12,7 +12,7 @@ Pybind11: `pip install pybind11`
 
 ## Building
 
-**To build:**  `g++ -O3 -Wall -shared -std=c++11 -fPIC $(python3.7 -m pybind11 --includes) wrapper.cpp MinCompSpin-main/*.cpp -o mcm_interface$(python3.7-config --extension-suffix) -undefined dynamic_lookup`
+**To build:**  `g++ -O3 -Wall -shared -std=c++11 -fPIC $(python3 -m pybind11 --includes) wrapper.cpp MinCompSpin-main/*.cpp -o mcm_interface$(python3 -config --extension-suffix) -undefined dynamic_lookup`
 
 
 after this the package can be imported into your python file with the name: `mcm_interface`
