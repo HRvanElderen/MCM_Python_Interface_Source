@@ -16,7 +16,7 @@ Pybind11: `pip install pybind11`
 
 or run the following command with `invoke` installed:
 
-python build.py
+`python build.py`
 
 
 after this the package can be imported into your python file with the name: `mcm_interface`
