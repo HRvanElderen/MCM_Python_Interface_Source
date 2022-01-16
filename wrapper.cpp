@@ -6,7 +6,9 @@
 #include <pybind11/pybind11.h>
 #include "pybind11/stl.h"   // support for standard library.
 #include <pybind11/numpy.h>
+
 #include "MinCompSpin/library.h" // cpp source.
+#include "MinCompSpin/support.h" 
 
 namespace py = pybind11;
 
@@ -35,5 +37,6 @@ PYBIND11_MODULE(mcm_interface, m) {
     m.def("MCM_AllRank_SmallerThan_r_Ordered", &MCM_AllRank_SmallerThan_r_Ordered);
     m.def("MCM_AllRank_SmallerThan_r_nonOrdered", &MCM_AllRank_SmallerThan_r_nonOrdered);
     m.def("Original_Basis", &Original_Basis);
-    m.def("MCM", &MCM);
+    m.def("countSetBits", &countSetBits);
+    m.def("int_to_bstring", &int_to_bstring);
 }
