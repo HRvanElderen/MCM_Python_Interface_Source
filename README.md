@@ -18,5 +18,6 @@ or run the following command with `invoke` installed:
 
 `python build.py`
 
-
 after this the package can be imported into your python file with the name: `mcm_interface`
+
+The tutorial can be found here: https://github.com/HRvanElderen/MCM_Python_Interface
