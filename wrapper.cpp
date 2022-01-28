@@ -37,6 +37,6 @@ PYBIND11_MODULE(mcm_interface, m) {
     m.def("MCM_AllRank_SmallerThan_r_Ordered", &MCM_AllRank_SmallerThan_r_Ordered);
     m.def("MCM_AllRank_SmallerThan_r_nonOrdered", &MCM_AllRank_SmallerThan_r_nonOrdered);
     m.def("Original_Basis", &Original_Basis);
-    m.def("countSetBits", &countSetBits);
+    m.def("count_set_bits", &count_set_bits);
     m.def("int_to_bstring", &int_to_bstring);
 }
