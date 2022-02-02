@@ -11,3 +11,5 @@ MinCompSpin-main_original/
 .vscode/
 
 *.so
+
+.ipynb_checkpoints/Tutorial (long)-checkpoint.ipynb
