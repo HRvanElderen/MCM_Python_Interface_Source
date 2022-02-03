@@ -4,7 +4,7 @@ Python package that interfaces with the C++ implementation of the MCM algorithm 
 
 **The C++ implementation:** https://github.com/clelidm/MinCompSpin
 
-The library uses Python 3.7.
+The library uses Python 3.
 
 ## Requirements
 
