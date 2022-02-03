@@ -18,6 +18,5 @@ or run the following command with `invoke` installed:
 
 `python build.py`
 
-after this the package can be imported into your python file with the name: `mcm_interface`
+after this the package can be imported into your python file with the name: `mcm_interface`. Two tutorials notebooks are added. A long one containing all functions available in the package. And a short one with a bit of data analysis.
 
-The tutorial can be found here: https://github.com/HRvanElderen/MCM_Python_Interface
